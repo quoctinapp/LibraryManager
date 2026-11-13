@@ -1,0 +1,18 @@
+# [GIẢI THÍCH] Những file / thư mục Git sẽ BỎ QUA, không đưa lên GitHub.
+
+# Kết quả biên dịch (tạo lại được bằng mingw32-make)
+build/
+*.o
+*.d
+
+# Chỉ đưa lên DUY NHẤT bản phát hành để người khác tải về chạy
+*.exe
+!release/QuanLyThuVien.exe
+
+# Báo cáo Word cá nhân (có họ tên, MSSV) và file tạm của Word
+Báo cáo/
+~$*
+
+# File đề bài, file CSV xuất thử
+*.pdf
+*.csv

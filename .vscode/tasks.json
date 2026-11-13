@@ -1,0 +1,81 @@
+{
+    // [GIẢI THÍCH DỄ HIỂU] File cấu hình cho VS Code: định nghĩa các "nút bấm" (task):
+    //   1) Build    : dịch mã nguồn thành build\QuanLyThuVien.exe (Ctrl+Shift+B, F5 cũng gọi task này)
+    //   2) Run      : build rồi mở chương trình (cửa sổ giao diện đồ hoạ)
+    //   3) Test     : dịch và chạy chương trình kiểm thử tự động
+    //   4) Phát hành: tạo release\QuanLyThuVien.exe - MỘT file exe duy nhất để nộp bài
+    // Các task gọi "mingw32-make" đọc file Makefile ở thư mục gốc: chỉ dịch lại file
+    // vừa sửa và dịch song song nhiều file cùng lúc (-j16).
+    // mingw32-make nằm cùng thư mục với g++ (WinLibs / MSYS2). Kiểm tra: mingw32-make --version
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build: QuanLyThuVien",
+            "command": "mingw32-make",
+            "args": ["-j16"],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "detail": "Dịch tăng dần (chỉ file đã sửa) thành QuanLyThuVien.exe"
+        },
+        {
+            "type": "shell",
+            "label": "Run: QuanLyThuVien",
+            "command": "start \"Quan Ly Thu Vien\" \"${workspaceFolder}\\build\\QuanLyThuVien.exe\"",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
+            },
+            "dependsOn": "Build: QuanLyThuVien",
+            "problemMatcher": [],
+            "detail": "Build rồi mở chương trình (không qua trình gỡ lỗi)"
+        },
+        {
+            "type": "shell",
+            "label": "Test: KiemThu",
+            "command": "mingw32-make",
+            "args": ["-j16", "test"],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
+            },
+            "group": "test",
+            "problemMatcher": ["$gcc"],
+            "detail": "Biên dịch và chạy kiểm thử tự động (ngày tháng, tiếng Việt, danh sách liên kết + merge sort, thêm/xóa/mượn/trả, thống kê, CSV)"
+        },
+        {
+            "type": "shell",
+            "label": "Phát hành: 1 file exe để nộp",
+            "command": "mingw32-make -j16 phathanh && explorer release",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Tạo release\\QuanLyThuVien.exe (đã nhúng icon, manifest, dữ liệu mẫu) rồi mở thư mục release"
+        }
+    ]
+}

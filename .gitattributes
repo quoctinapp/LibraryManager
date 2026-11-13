@@ -1,0 +1,9 @@
+# [GIẢI THÍCH] Quy định cách Git lưu file văn bản / nhị phân.
+# Mọi file văn bản giữ ký tự xuống dòng LF (không đổi sang CRLF) -> hết cảnh báo
+# "LF will be replaced by CRLF" và dữ liệu nhúng vào exe giống hệt nhau trên mọi máy.
+* text=auto eol=lf
+
+# File nhị phân: không bao giờ đổi nội dung
+*.ico binary
+*.exe binary
+*.png binary

@@ -1,0 +1,31 @@
+{
+    // [GIẢI THÍCH DỄ HIỂU] File cấu hình cho phím F5 trong VS Code: build chương trình
+    // rồi chạy nó dưới sự theo dõi của "gdb" (trình gỡ lỗi), cho phép dừng chương
+    // trình ở một dòng bất kỳ để xem giá trị bên trong khi cần tìm lỗi.
+    // "cwd" = thư mục gốc dự án -> chương trình dùng thư mục data/ của dự án.
+    // Chỉ muốn chạy thử (không cần gỡ lỗi)? Dùng Terminal > Run Task > "Run: QuanLyThuVien".
+    // Không ghi "miDebuggerPath" => VS Code tự tìm gdb trong PATH.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug: QuanLyThuVien (gdb)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\build\\QuanLyThuVien.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Bật pretty-printing cho gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: QuanLyThuVien"
+        }
+    ]
+}

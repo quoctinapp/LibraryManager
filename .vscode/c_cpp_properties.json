@@ -1,0 +1,16 @@
+{
+    // [GIẢI THÍCH DỄ HIỂU] Cho phần gợi ý code (IntelliSense) của VS Code biết các file .h
+    // nằm trong src/ và các thư mục con, để không gạch đỏ các dòng #include.
+    // Không ảnh hưởng tới việc biên dịch (việc đó do Makefile lo).
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": ["${workspaceFolder}/src/**"],
+            "compilerPath": "g++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
