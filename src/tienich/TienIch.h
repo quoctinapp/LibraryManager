@@ -3,10 +3,10 @@
 
 // ============================================================================
 //  TienIch.h - Các hàm tiện ích xử lý chuỗi dùng chung
-//   - Cắt khoảng trắng, đổi hoa / thường (cho mã), kiểm tra mã hợp lệ.
-//   - Đổi qua lại UTF-8 (lưu file) <-> UTF-16 (Windows hiển thị), đếm ký tự.
-//   - Tìm kiếm KHÔNG DẤU ("nguyen" tìm ra "Nguyễn"), so sánh theo tiếng Việt.
-//   - Template: ChuyenSangSo<T> (chuỗi -> số), TachChuoi<N> (tách "a|b|c").
+//      - Cắt khoảng trắng, đổi hoa / thường (cho mã), kiểm tra mã hợp lệ.
+//      - Đổi qua lại UTF-8 (lưu file) <-> UTF-16 (Windows hiển thị), đếm ký tự.
+//      - Tìm kiếm KHÔNG DẤU ("nguyen" tìm ra "Nguyễn"), so sánh theo tiếng Việt.
+//      - Template: ChuyenSangSo<T> (chuỗi -> số), TachChuoi<N> (tách "a|b|c").
 // ============================================================================
 
 // ----------------------------------------------------------------------------
@@ -14,16 +14,13 @@
 //  "Tiện ích" = hộp đồ nghề nhỏ dùng chung cho nhiều file khác.
 //
 //  Vì sao có 2 kiểu chuỗi?
-//   - File .txt lưu chữ tiếng Việt theo chuẩn UTF-8 (std::string): chữ "ễ"
-//     chiếm 3 byte. Đây là chuẩn phổ biến, Notepad mở được.
-//   - Cửa sổ Windows hiển thị chữ theo chuẩn UTF-16 (std::wstring): mỗi chữ
-//     tiếng Việt là 1 ký tự wchar_t.
+//      - File .txt lưu chữ tiếng Việt theo chuẩn UTF-8 (std::string): chữ "ễ" chiếm 3 byte. Đây là chuẩn phổ biến, Notepad mở được.
+//      - Cửa sổ Windows hiển thị chữ theo chuẩn UTF-16 (std::wstring): mỗi chữ tiếng Việt là 1 ký tự wchar_t.
 //  Hai hàm Utf8SangUtf16 / Utf16SangUtf8 là "phiên dịch viên" giữa hai bên.
 //
 //  Hai hàm template ở cuối file viết MỘT lần nhưng dùng được cho NHIỀU kiểu:
-//   - ChuyenSangSo<int>, ChuyenSangSo<long long>... đổi chuỗi thành số, và
-//     chỉ chấp nhận khi TOÀN BỘ chuỗi là số ("12abc" -> sai).
-//   - TachChuoi<9> tách một dòng trong file Sach.txt thành đúng 9 ô.
+//      - ChuyenSangSo<int>, ChuyenSangSo<long long>... đổi chuỗi thành số, và chỉ chấp nhận khi TOÀN BỘ chuỗi là số ("12abc" -> sai).
+//      - TachChuoi<9> tách một dòng trong file Sach.txt thành đúng 9 ô.
 // ----------------------------------------------------------------------------
 
 #include <cstddef>
@@ -63,8 +60,7 @@ int SoSanhTiengViet(const std::string& a, const std::string& b);
 // [GIẢI THÍCH] Đổi chuỗi sang số kiểu T. Trả về false nếu chuỗi rỗng, có ký tự
 // thừa ("12abc", "1.5" với kiểu int) hoặc số quá lớn so với kiểu T.
 template <typename T>
-bool ChuyenSangSo(const std::string& chuoi, T& ketQua)
-{
+bool ChuyenSangSo(const std::string& chuoi, T& ketQua){
     const std::string daCat = CatKhoangTrang(chuoi);
     if (daCat.empty()) {
         return false;
@@ -85,8 +81,7 @@ bool ChuyenSangSo(const std::string& chuoi, T& ketQua)
 // Ví dụ TachChuoi("a|b|c", '|', mang3) -> mang3 = {"a", "b", "c"}, trả về true.
 // Nếu số ô khác N (thiếu hoặc thừa) thì trả về false.
 template <std::size_t N>
-bool TachChuoi(const std::string& chuoi, char kyTuPhanCach, std::string (&ketQua)[N])
-{
+bool TachChuoi(const std::string& chuoi, char kyTuPhanCach, std::string (&ketQua)[N]){
     std::size_t soO = 0;
     std::size_t batDau = 0;
 

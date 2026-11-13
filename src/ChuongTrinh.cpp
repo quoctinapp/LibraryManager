@@ -13,26 +13,20 @@
 #include "QuanLyThuVien.h"
 #include "TaiNguyenNhung.h"
 #include "TienIch.h"
-
 #include <commctrl.h>
-
 #include <filesystem>
 #include <string>
 
-int ChuongTrinh::Chay(HINSTANCE hInstance)
-{
-    // [GIẢI THÍCH] Chỉ cho chạy MỘT cửa sổ chương trình cùng lúc: hai cửa sổ
-    // cùng ghi vào một file dữ liệu sẽ làm hỏng dữ liệu của nhau.
+int ChuongTrinh::Chay(HINSTANCE hInstance){
+    // [GIẢI THÍCH] Chỉ cho chạy MỘT cửa sổ chương trình cùng lúc: hai cửa sổ cùng ghi vào một file dữ liệu sẽ làm hỏng dữ liệu của nhau.
     HANDLE khoaDuyNhat = CreateMutexW(nullptr, TRUE, L"QuanLyThuVien.CTDL.Project3");
     if (GetLastError() == ERROR_ALREADY_EXISTS) {
-        HopThongBao::ThongTin(nullptr, L"Chương trình đang chạy",
-                              L"Quản lý thư viện đã được mở ở một cửa sổ khác.");
+        HopThongBao::ThongTin(nullptr, L"Chương trình đang chạy", L"Quản lý thư viện đã được mở ở một cửa sổ khác.");
         CloseHandle(khoaDuyNhat);
         return 0;
     }
 
-    INITCOMMONCONTROLSEX thuVien = { sizeof(thuVien), ICC_WIN95_CLASSES | ICC_DATE_CLASSES
-                                                          | ICC_STANDARD_CLASSES | ICC_BAR_CLASSES };
+    INITCOMMONCONTROLSEX thuVien = { sizeof(thuVien), ICC_WIN95_CLASSES | ICC_DATE_CLASSES | ICC_STANDARD_CLASSES | ICC_BAR_CLASSES };
     InitCommonControlsEx(&thuVien);
     ChuDe::KhoiTao();
     CuaSoCoSo::DangKyLop(hInstance);
@@ -56,10 +50,7 @@ int ChuongTrinh::Chay(HINSTANCE hInstance)
             CuaSoDangNhap dangNhap(quanLy);
             const KetQuaDangNhap ketQua = dangNhap.Chay();
             if (ketQua == KetQuaDangNhap::SAI_QUA_SO_LAN) {
-                HopThongBao::Loi(nullptr, L"Đăng nhập thất bại",
-                                 L"Bạn đã nhập sai user / password "
-                                     + std::to_wstring(CauHinh::SO_LAN_DANG_NHAP_TOI_DA)
-                                     + L" lần. Hệ thống sẽ thoát.");
+                HopThongBao::Loi(nullptr, L"Đăng nhập thất bại", L"Bạn đã nhập sai user / password " + std::to_wstring(CauHinh::SO_LAN_DANG_NHAP_TOI_DA) + L" lần. Hệ thống sẽ thoát.");
                 break;
             }
             if (ketQua == KetQuaDangNhap::THOAT) {

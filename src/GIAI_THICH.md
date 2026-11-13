@@ -32,8 +32,7 @@ CuaSoCoSo (trừu tượng)
    <- CuaSoDangNhap
    <- CuaSoChinh  (+ GiaoTiepTrang)
    <- TrangNoiDung (trừu tượng)  <- TrangTongQuan, TrangSach, TrangPhieuMuon, TrangBanDoc
-   <- HopThoaiCoSo (trừu tượng)  <- HopThoaiThemSach, HopThoaiThemBanDoc,
-                                    HopThoaiMuonSach, HopThoaiTraSach, HopThoaiNhapMa
+   <- HopThoaiCoSo (trừu tượng)  <- HopThoaiThemSach, HopThoaiThemBanDoc, HopThoaiMuonSach, HopThoaiTraSach, HopThoaiNhapMa
 ```
 
 ## Luồng chạy
@@ -44,6 +43,6 @@ wWinMain -> ChuongTrinh::Chay()
    ├── QuanLyThuVien::NapDuLieu()               đọc 4 file vào 4 DanhSachLienKet
    ├── CuaSoDangNhap::Chay()                    sai 3 lần -> thoát; ESC -> thoát
    └── CuaSoChinh::Chay()                       sidebar + 4 trang; Đăng xuất -> quay lại đăng nhập
-          └── Trang... -> HopThoai...::ChayModal() -> QuanLyThuVien::ThemSach / MuonSach / TraSach ...
-                 lỗi -> báo lỗi (TaskDialog), HỦY chức năng, quay lại màn hình trước
+         └── Trang... -> HopThoai...::ChayModal() -> QuanLyThuVien::ThemSach / MuonSach / TraSach ...
+                  lỗi -> báo lỗi (TaskDialog), HỦY chức năng, quay lại màn hình trước
 ```

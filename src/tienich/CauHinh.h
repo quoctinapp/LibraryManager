@@ -3,16 +3,15 @@
 
 // ============================================================================
 //  CauHinh.h - Các hằng số cấu hình dùng chung cho toàn chương trình
-//   - Tên thư mục / tên các file dữ liệu.
-//   - Quy tắc nghiệp vụ: số lần đăng nhập, số ngày mượn, tình trạng.
-//   - Giới hạn độ dài và ràng buộc giá trị của dữ liệu.
+//      - Tên thư mục / tên các file dữ liệu.
+//      - Quy tắc nghiệp vụ: số lần đăng nhập, số ngày mượn, tình trạng.
+//      - Giới hạn độ dài và ràng buộc giá trị của dữ liệu.
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Đây là "bảng nội quy" của thư viện, gom về MỘT chỗ. Muốn đổi số ngày mượn
-//  từ 7 thành 14, hay đổi số lần nhập sai mật khẩu, chỉ cần sửa ở file này,
-//  không phải đi tìm từng con số rải rác trong code (tránh "số ma thuật").
+//  Đây là "bảng nội quy" của thư viện, gom về MỘT chỗ. 
+//  Muốn đổi số ngày mượn từ 7 thành 14, hay đổi số lần nhập sai mật khẩu, chỉ cần sửa ở file này, không phải đi tìm từng con số rải rác trong code (tránh "số ma thuật").
 // ----------------------------------------------------------------------------
 
 #include <cstddef>
