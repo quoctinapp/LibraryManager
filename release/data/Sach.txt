@@ -1,0 +1,12 @@
+S001|Cấu trúc dữ liệu và giải thuật|Đỗ Xuân Lôi|NXB Khoa học Kỹ thuật|95000|2019|320|10/01/2025|0
+S002|Lập trình hướng đối tượng C++|Phạm Văn Ất|NXB Giáo dục|120000|2020|450|10/01/2025|0
+S003|Nhập môn lập trình|Nguyễn Thanh Thủy|NXB ĐHQG Hà Nội|80000|2018|280|15/02/2025|9
+S004|Toán rời rạc|Nguyễn Đức Nghĩa|NXB ĐHQG Hà Nội|75000|2017|360|15/02/2025|0
+S005|Cơ sở dữ liệu|Phạm Hữu Khang|NXB Lao động|110000|2021|400|01/04/2025|10
+S006|Mạng máy tính|Nguyễn Thúc Hải|NXB Giáo dục|99000|2016|300|01/04/2025|0
+S007|Clean Code|Robert C. Martin|Prentice Hall|350000|2008|464|20/05/2025|11
+S008|Trí tuệ nhân tạo|Đinh Mạnh Tường|NXB Khoa học Kỹ thuật|130000|2022|520|10/07/2025|0
+S009|Hệ điều hành|Hà Quang Thụy|NXB Giáo dục|105000|2019|380|12/09/2025|0
+S010|Kỹ thuật lập trình C|Phạm Văn Ất|NXB Khoa học Kỹ thuật|89000|2015|340|12/09/2025|12
+S011|Phân tích thiết kế hệ thống|Nguyễn Văn Ba|NXB ĐHQG Hà Nội|115000|2020|420|05/01/2026|0
+S012|Giải tích 1|Nguyễn Đình Trí|NXB Giáo dục|68000|2018|300|05/01/2026|0

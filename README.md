@@ -93,20 +93,20 @@ mingw32-make clean             :: xóa build/
 ```
 CTDL&GT/
 ├── src/
-│   ├── main.cpp, ChuongTrinh.h/.cpp   Điểm bắt đầu (wWinMain) và điều phối chương trình
-│   ├── cautrucdulieu/   DanhSachLienKet.h                   (lõi)
-│   ├── thucthe/         DoiTuongLuuTru, Sach, BanDoc, PhieuMuon, TaiKhoan   (lõi)
-│   ├── luutru/          KhoDuLieu.h, XuatCsv.h              (lõi)
-│   ├── nghiepvu/        QuanLyThuVien                       (lõi)
-│   ├── tienich/         CauHinh, NgoaiLe, NgayThang, TienIch (lõi)
-│   ├── nentang/         CuaSoCoSo, ChuDe, BoVe, DieuKhien, BangDuLieu, HopThongBao, TaiNguyenNhung
-│   └── giaodien/        CuaSoDangNhap, CuaSoChinh, Trang..., HopThoai...
-├── data/                Admin.txt, Sach.txt, BanDoc.txt, PhieuMuon.txt, icon.ico
-├── tests/               KiemThu.cpp (kiểm thử phần lõi)
-├── release/             Bản exe đóng gói để nộp
-├── .vscode/             Cấu hình VS Code
-├── Makefile             Công thức biên dịch
-├── TaiNguyen.rc         Danh sách tài nguyên nhúng vào exe
+│   ├── main.cpp, ChuongTrinh.h/.cpp Điểm bắt đầu (wWinMain) và điều phối chương trình
+│   ├── cautrucdulieu/               DanhSachLienKet.h                                   (lõi)
+│   ├── thucthe/                     DoiTuongLuuTru, Sach, BanDoc, PhieuMuon, TaiKhoan   (lõi)
+│   ├── luutru/                      KhoDuLieu.h, XuatCsv.h                              (lõi)
+│   ├── nghiepvu/                    QuanLyThuVien                                       (lõi)
+│   ├── tienich/                     CauHinh, NgoaiLe, NgayThang, TienIch                (lõi)
+│   ├── nentang/                     CuaSoCoSo, ChuDe, BoVe, DieuKhien, BangDuLieu, HopThongBao, TaiNguyenNhung
+│   └── giaodien/                    CuaSoDangNhap, CuaSoChinh, Trang..., HopThoai...
+├── data/        Admin.txt, Sach.txt, BanDoc.txt, PhieuMuon.txt, icon.ico
+├── tests/       KiemThu.cpp                        (kiểm thử phần lõi)
+├── release/     Bản exe đóng gói để nộp
+├── .vscode/     Cấu hình VS Code
+├── Makefile     Công thức biên dịch
+├── TaiNguyen.rc Danh sách tài nguyên nhúng vào exe 
 └── QuanLyThuVien.manifest
 ```
 
