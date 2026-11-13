@@ -86,6 +86,31 @@ mingw32-make clean             :: xóa build/
 - Lần đầu chạy, exe tự tạo thư mục `data\` bên cạnh nó với dữ liệu mẫu.
 - Nếu Windows hiện bảng *"Windows protected your PC"*, bấm *More info* rồi *Run anyway*. Bảng này hiện vì exe tự biên dịch, chưa có chữ ký số.
 
+### Cập nhật lên GitHub: một lệnh
+
+Sửa code xong, đứng ở thư mục gốc dự án và chạy:
+
+```powershell
+.\capnhat "Mô tả thay đổi"
+```
+
+Ở PowerShell (terminal mặc định của VS Code) phải có `.\` ở đầu lệnh. Ở cmd thì gõ `capnhat` là đủ.
+
+Nếu chỉ gõ `.\capnhat` (không có mô tả), lời nhắn commit mặc định là `Cap nhat <ngày> <giờ>`. Trong VS Code, có thể chọn *Terminal → Run Task → `Git: Cập nhật lên GitHub`*; VS Code sẽ hỏi mô tả thay đổi.
+
+Lệnh `capnhat.bat` làm lần lượt 4 bước. Bước nào lỗi thì dừng lại, không đẩy code hỏng lên GitHub:
+
+1. Đóng gói lại `release\QuanLyThuVien.exe` từ code mới nhất.
+2. Chạy kiểm thử tự động. Có ca `[SAI]` thì dừng.
+3. `git add` và `git commit`.
+4. `git push` lên https://github.com/quoctinapp/LibraryManager.
+
+Lưu ý:
+
+- Cần **đóng chương trình** trước khi chạy, nếu không sẽ không ghi đè được file exe. Script sẽ tự nhắc nếu chương trình còn mở.
+- Nếu không có thay đổi nào, script báo "Không có thay đổi" và không commit gì.
+- Bản exe được build ổn định: code không đổi thì exe giống hệt từng byte, nên không sinh commit thừa.
+
 ---
 
 ## 4. Cấu trúc dự án
@@ -102,7 +127,7 @@ CTDL&GT/
 │   ├── nentang/                     CuaSoCoSo, ChuDe, BoVe, DieuKhien, BangDuLieu, HopThongBao, TaiNguyenNhung
 │   └── giaodien/                    CuaSoDangNhap, CuaSoChinh, Trang..., HopThoai...
 ├── data/        Admin.txt, Sach.txt, BanDoc.txt, PhieuMuon.txt, icon.ico
-├── tests/       KiemThu.cpp                        (kiểm thử phần lõi)
+├── tests/       KiemThu.cpp   (kiểm thử phần lõi)
 ├── release/     Bản exe đóng gói để nộp
 ├── .vscode/     Cấu hình VS Code
 ├── Makefile     Công thức biên dịch

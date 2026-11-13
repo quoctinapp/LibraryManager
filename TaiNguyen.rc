@@ -1,10 +1,8 @@
 // ============================================================================
 //  TaiNguyen.rc - danh sach "tai nguyen" (resource) NHUNG VAO BEN TRONG file exe
-//  [GIAI THICH] Nho file nay, QuanLyThuVien.exe tu mang theo icon, manifest va
-//  4 file du lieu mau -> chi can gui MOT file exe la chay duoc. Lan dau chay,
-//  exe tu giai nen du lieu mau ra thu muc data/ ben canh no.
-//  Cong cu "windres" (di kem g++) bien file nay thanh build/TaiNguyen.o roi ghep
-//  vao exe. File nay chi dung chu khong dau de windres doc an toan.
+//  [GIAI THICH] Nho file nay, QuanLyThuVien.exe tu mang theo icon, manifest va 4 file du lieu mau 
+//  -> chi can gui MOT file exe la chay duoc. Lan dau chay, exe tu giai nen du lieu mau ra thu muc data/ ben canh no.
+//  Cong cu "windres" (di kem g++) bien file nay thanh build/TaiNguyen.o roi ghep vao exe. File nay chi dung chu khong dau de windres doc an toan.
 // ============================================================================
 
 // Icon cua file exe (hien trong File Explorer, thanh Taskbar, goc cua so)

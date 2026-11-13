@@ -76,6 +76,32 @@
             },
             "problemMatcher": ["$gcc"],
             "detail": "Tạo release\\QuanLyThuVien.exe (đã nhúng icon, manifest, dữ liệu mẫu) rồi mở thư mục release"
+        },
+        {
+            "type": "shell",
+            "label": "Git: Cập nhật lên GitHub",
+            "command": "capnhat.bat \"${input:loiNhanCommit}\"",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
+            },
+            "problemMatcher": ["$gcc"],
+            "presentation": {
+                "reveal": "always",
+                "clear": true
+            },
+            "detail": "Đóng gói exe -> chạy kiểm thử -> commit -> push (bước nào lỗi thì dừng)"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "loiNhanCommit",
+            "type": "promptString",
+            "description": "Mô tả thay đổi (để trống = \"Cap nhat <ngày> <giờ>\")",
+            "default": ""
         }
     ]
 }

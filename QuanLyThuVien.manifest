@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
   QuanLyThuVien.manifest - "giay khai sinh" cua file exe, duoc nhung vao exe qua TaiNguyen.rc
-   - Common-Controls 6.0 : dung giao dien hien dai cua Windows cho nut, bang, o chon ngay
-                           (khong co dong nay, cac dieu khien se trong nhu Windows 95)
-   - dpiAware            : chuong trinh tu co gian theo ti le man hinh (125%, 150%...)
-                           nen chu va hinh luon sac net, khong bi mo
-   - longPathAware       : mo duoc file co duong dan dai hon 260 ky tu
-   - supportedOS         : khai bao chay tot tren Windows 10 / 11
+    - Common-Controls 6.0: dung giao dien hien dai cua Windows cho nut, bang, o chon ngay (khong co dong nay, cac dieu khien se trong nhu Windows 95)
+    - dpiAware: chuong trinh tu co gian theo ti le man hinh (125%, 150%...) nen chu va hinh luon sac net, khong bi mo
+    - longPathAware: mo duoc file co duong dan dai hon 260 ky tu
+    - supportedOS: khai bao chay tot tren Windows 10 / 11
 -->
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <assemblyIdentity type="win32" name="CTDL.Project3.QuanLyThuVien" version="2.0.0.0" processorArchitecture="*"/>
   <description>Quan ly thu vien - Project 3 CTDL&amp;GT</description>
   <dependency>
     <dependentAssembly>
-      <assemblyIdentity type="win32" name="Microsoft.Windows.Common-Controls" version="6.0.0.0"
-                        processorArchitecture="*" publicKeyToken="6595b64144ccf1df" language="*"/>
+      <assemblyIdentity type="win32" name="Microsoft.Windows.Common-Controls" version="6.0.0.0" processorArchitecture="*" publicKeyToken="6595b64144ccf1df" language="*"/>
     </dependentAssembly>
   </dependency>
   <application xmlns="urn:schemas-microsoft-com:asm.v3">
