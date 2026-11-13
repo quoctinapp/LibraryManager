@@ -7,8 +7,7 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Khi một nút được bấm, Windows báo cho cửa sổ cha bằng WM_COMMAND kèm MÃ SỐ
-//  của nút. Gom các mã về một chỗ để không bị trùng và dễ đọc hơn số trần.
+//  Khi một nút được bấm, Windows báo cho cửa sổ cha bằng WM_COMMAND kèm MÃ SỐ của nút. Gom các mã về một chỗ để không bị trùng và dễ đọc hơn số trần.
 //  IDOK (1) và IDCANCEL (2) là mã chuẩn của Windows cho nút Đồng ý / Hủy:
 //  phím Enter tự bấm IDOK, phím ESC tự bấm IDCANCEL.
 // ----------------------------------------------------------------------------

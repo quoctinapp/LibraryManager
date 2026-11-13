@@ -12,14 +12,12 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Mỗi đối tượng Sach là một "thẻ sách" trong thư viện. Các thông tin để
-//  private (tính đóng gói): bên ngoài muốn đọc phải gọi GetMaSach(), GetTenSach()...
+//  Mỗi đối tượng Sach là một "thẻ sách" trong thư viện. Các thông tin để private (tính đóng gói): bên ngoài muốn đọc phải gọi GetMaSach(), GetTenSach()...
 //  và chỉ được sửa duy nhất tình trạng qua SetTinhTrang() (khi mượn / trả).
 // ----------------------------------------------------------------------------
 
 #include "DoiTuongLuuTru.h"
 #include "NgayThang.h"
-
 #include <cstddef>
 #include <string>
 
@@ -39,9 +37,7 @@ public:
     static const std::size_t SO_TRUONG = 9;     // số ô trên một dòng của Sach.txt
 
     Sach();
-    Sach(const std::string& maSach, const std::string& tenSach, const std::string& tacGia,
-         const std::string& nhaXuatBan, long long giaBan, int namPhatHanh, int soTrang,
-         const NgayThang& ngayNhapKho);
+    Sach(const std::string& maSach, const std::string& tenSach, const std::string& tacGia, const std::string& nhaXuatBan, long long giaBan, int namPhatHanh, int soTrang, const NgayThang& ngayNhapKho);
 
     std::string GetMaSach() const;
     std::string GetTenSach() const;

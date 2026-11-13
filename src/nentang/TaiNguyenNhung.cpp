@@ -13,7 +13,6 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-
 #include <fstream>
 #include <system_error>
 
@@ -31,25 +30,23 @@ static const TepNhung CAC_TEP_NHUNG[] = {
     { L"DL_PHIEUMUON", CauHinh::FILE_PHIEU_MUON },
 };
 
-fs::path TaiNguyenNhung::ThuMucChuaExe()
-{
+fs::path TaiNguyenNhung::ThuMucChuaExe() {
     wchar_t duongDan[MAX_PATH * 4] = L"";
     GetModuleFileNameW(nullptr, duongDan, static_cast<DWORD>(MAX_PATH * 4));
     return fs::path(duongDan).parent_path();
 }
 
-bool TaiNguyenNhung::CoDuLieu(const fs::path& thuMuc)
-{
+bool TaiNguyenNhung::CoDuLieu(const fs::path& thuMuc) {
     std::error_code loi;
     return fs::exists(thuMuc / CauHinh::FILE_TAI_KHOAN, loi);
 }
 
-bool TaiNguyenNhung::GhiTaiNguyenRaFile(const wchar_t* tenTaiNguyen, const fs::path& dich)
-{
+bool TaiNguyenNhung::GhiTaiNguyenRaFile(const wchar_t* tenTaiNguyen, const fs::path& dich) {
     HRSRC timThay = FindResourceW(nullptr, tenTaiNguyen, MAKEINTRESOURCEW(10));     // 10 = RT_RCDATA
     if (timThay == nullptr) {
         return false;
     }
+
     HGLOBAL daNap = LoadResource(nullptr, timThay);
     const DWORD kichThuoc = SizeofResource(nullptr, timThay);
     const void* duLieu = daNap != nullptr ? LockResource(daNap) : nullptr;
@@ -61,29 +58,30 @@ bool TaiNguyenNhung::GhiTaiNguyenRaFile(const wchar_t* tenTaiNguyen, const fs::p
     if (!file.is_open()) {
         return false;
     }
+
     file.write(static_cast<const char*>(duLieu), static_cast<std::streamsize>(kichThuoc));
     return static_cast<bool>(file);
 }
 
 // [GIẢI THÍCH] Chỉ giải nén file nào CÒN THIẾU, không bao giờ ghi đè dữ liệu đang có.
-bool TaiNguyenNhung::GiaiNenNeuThieu(const fs::path& thuMuc)
-{
+bool TaiNguyenNhung::GiaiNenNeuThieu(const fs::path& thuMuc) {
     std::error_code loi;
     fs::create_directories(thuMuc, loi);
     if (!fs::is_directory(thuMuc, loi)) {
         return false;
     }
+
     for (const TepNhung& tep : CAC_TEP_NHUNG) {
         const fs::path dich = thuMuc / tep.tenFile;
         if (!fs::exists(dich, loi) && !GhiTaiNguyenRaFile(tep.tenTaiNguyen, dich)) {
             return false;
         }
     }
+
     return true;
 }
 
-fs::path TaiNguyenNhung::ChuanBiThuMucDuLieu()
-{
+fs::path TaiNguyenNhung::ChuanBiThuMucDuLieu() {
     const fs::path canhExe = ThuMucChuaExe() / CauHinh::THU_MUC_DU_LIEU;
     if (CoDuLieu(canhExe)) {
         GiaiNenNeuThieu(canhExe);
@@ -107,5 +105,6 @@ fs::path TaiNguyenNhung::ChuanBiThuMucDuLieu()
             return duPhong;
         }
     }
+
     throw LoiFile("Không thể tạo thư mục dữ liệu cạnh file chương trình.");
 }

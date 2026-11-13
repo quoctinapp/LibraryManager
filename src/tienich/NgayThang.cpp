@@ -14,16 +14,16 @@
 //  Constructor
 // ============================================================================
 
-NgayThang::NgayThang(): ngay(1), thang(1), nam(CauHinh::NAM_TOI_THIEU){}
+NgayThang::NgayThang() : ngay(1), thang(1), nam(CauHinh::NAM_TOI_THIEU) {}
 
-NgayThang::NgayThang(int ngay, int thang, int nam): ngay(ngay), thang(thang), nam(nam){}
+NgayThang::NgayThang(int ngay, int thang, int nam) : ngay(ngay), thang(thang), nam(nam) {}
 
 // ============================================================================
 //  Hàm tĩnh
 // ============================================================================
 
 // [GIẢI THÍCH] Hỏi đồng hồ của máy tính để biết hôm nay là ngày nào.
-NgayThang NgayThang::HomNay(){
+NgayThang NgayThang::HomNay() {
     const std::time_t bayGio = std::time(nullptr);
     std::tm thoiGian{};
 #ifdef _WIN32
@@ -34,22 +34,24 @@ NgayThang NgayThang::HomNay(){
     return NgayThang(thoiGian.tm_mday, thoiGian.tm_mon + 1, thoiGian.tm_year + 1900);
 }
 
-bool NgayThang::LaNamNhuan(int nam){
+bool NgayThang::LaNamNhuan(int nam) {
     return (nam % 4 == 0 && nam % 100 != 0) || (nam % 400 == 0);
 }
 
-int NgayThang::SoNgayTrongThang(int thang, int nam){
+int NgayThang::SoNgayTrongThang(int thang, int nam) {
     static const int SO_NGAY[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     if (thang < 1 || thang > 12) {
         return 0;
     }
+
     if (thang == 2 && LaNamNhuan(nam)) {
         return 29;
     }
+
     return SO_NGAY[thang - 1];
 }
 
-bool NgayThang::DocTuChuoi(const std::string& chuoi, NgayThang& ketQua){
+bool NgayThang::DocTuChuoi(const std::string& chuoi, NgayThang& ketQua) {
     std::string chuan = CatKhoangTrang(chuoi);
     for (char& kyTu : chuan) {
         if (kyTu == '-') {
@@ -65,8 +67,7 @@ bool NgayThang::DocTuChuoi(const std::string& chuoi, NgayThang& ketQua){
     int ngayDoc = 0;
     int thangDoc = 0;
     int namDoc = 0;
-    if (!ChuyenSangSo(phan[0], ngayDoc) || !ChuyenSangSo(phan[1], thangDoc)
-        || !ChuyenSangSo(phan[2], namDoc)) {
+    if (!ChuyenSangSo(phan[0], ngayDoc) || !ChuyenSangSo(phan[1], thangDoc) || !ChuyenSangSo(phan[2], namDoc)) {
         return false;
     }
 
@@ -88,32 +89,33 @@ int NgayThang::GetThang() const { return thang; }
 int NgayThang::GetNam() const { return nam; }
 
 // [GIẢI THÍCH] Tháng 1..12, ngày không vượt số ngày của tháng (tính cả năm nhuận).
-bool NgayThang::HopLe() const{
+bool NgayThang::HopLe() const {
     if (nam < CauHinh::NAM_TOI_THIEU || nam > CauHinh::NAM_TOI_DA) {
         return false;
     }
+
     if (thang < 1 || thang > 12) {
         return false;
     }
+
     return ngay >= 1 && ngay <= SoNgayTrongThang(thang, nam);
 }
 
-NgayThang NgayThang::CongNgay(int soNgay) const{
+NgayThang NgayThang::CongNgay(int soNgay) const {
     return TuSoThuTuNgay(SoThuTuNgay() + soNgay);
 }
 
-long long NgayThang::SoNgayDen(const NgayThang& ngayKhac) const{
+long long NgayThang::SoNgayDen(const NgayThang& ngayKhac) const {
     return ngayKhac.SoThuTuNgay() - SoThuTuNgay();
 }
 
-// [GIẢI THÍCH] Ngày 01/01/1970 (số thứ tự 0) là Thứ Năm (= 4). Cứ mỗi 7 ngày
-// lại lặp lại thứ cũ, nên lấy (số thứ tự + 4) chia lấy dư cho 7.
-int NgayThang::ThuTrongTuan() const{
+// [GIẢI THÍCH] Ngày 01/01/1970 (số thứ tự 0) là Thứ Năm (= 4). Cứ mỗi 7 ngày lại lặp lại thứ cũ, nên lấy (số thứ tự + 4) chia lấy dư cho 7.
+int NgayThang::ThuTrongTuan() const {
     const long long du = (SoThuTuNgay() + 4) % 7;
     return static_cast<int>(du < 0 ? du + 7 : du);
 }
 
-std::string NgayThang::ChuyenThanhChuoi() const{
+std::string NgayThang::ChuyenThanhChuoi() const {
     std::ostringstream luong;
     luong << std::setfill('0') << std::setw(2) << ngay << '/' << std::setw(2) << thang << '/' << std::setw(4) << nam;
     return luong.str();
@@ -123,7 +125,7 @@ std::string NgayThang::ChuyenThanhChuoi() const{
 //  Nạp chồng toán tử so sánh
 // ============================================================================
 
-bool NgayThang::operator==(const NgayThang& khac) const{
+bool NgayThang::operator==(const NgayThang& khac) const {
     return ngay == khac.ngay && thang == khac.thang && nam == khac.nam;
 }
 
@@ -137,9 +139,8 @@ bool NgayThang::operator>=(const NgayThang& khac) const { return !(*this < khac)
 //  Đổi ngày <-> số thứ tự ngày (thuật toán "days from civil" của lịch Gregory)
 // ============================================================================
 
-// [GIẢI THÍCH] Coi năm bắt đầu từ tháng 3 để ngày 29/02 (nếu có) rơi vào cuối
-// năm; nhờ vậy công thức đếm ngày không phải xử lý riêng năm nhuận.
-long long NgayThang::SoThuTuNgay() const{
+// [GIẢI THÍCH] Coi năm bắt đầu từ tháng 3 để ngày 29/02 (nếu có) rơi vào cuối năm; nhờ vậy công thức đếm ngày không phải xử lý riêng năm nhuận.
+long long NgayThang::SoThuTuNgay() const {
     const long long namTinh = thang <= 2 ? nam - 1 : nam;
     const long long chuKy = (namTinh >= 0 ? namTinh : namTinh - 399) / 400;
     const long long namTrongChuKy = namTinh - chuKy * 400;
@@ -149,7 +150,7 @@ long long NgayThang::SoThuTuNgay() const{
     return chuKy * 146097 + ngayTrongChuKy - 719468;
 }
 
-NgayThang NgayThang::TuSoThuTuNgay(long long soThuTu){
+NgayThang NgayThang::TuSoThuTuNgay(long long soThuTu) {
     const long long z = soThuTu + 719468;
     const long long chuKy = (z >= 0 ? z : z - 146096) / 146097;
     const long long ngayTrongChuKy = z - chuKy * 146097;

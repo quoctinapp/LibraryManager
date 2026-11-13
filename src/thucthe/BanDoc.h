@@ -9,13 +9,11 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  "Thẻ thư viện" của một người. Khi mượn sách, chương trình kiểm tra mã bạn
-//  đọc có trong danh sách này không; không có thì không cho mượn.
+//  "Thẻ thư viện" của một người. Khi mượn sách, chương trình kiểm tra mã bạn đọc có trong danh sách này không; không có thì không cho mượn.
 // ----------------------------------------------------------------------------
 
 #include "DoiTuongLuuTru.h"
 #include "NgayThang.h"
-
 #include <cstddef>
 #include <string>
 

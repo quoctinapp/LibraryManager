@@ -10,7 +10,7 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Đây là "bảng nội quy" của thư viện, gom về MỘT chỗ. 
+//  Đây là "bảng nội quy" của thư viện, gom về MỘT chỗ.
 //  Muốn đổi số ngày mượn từ 7 thành 14, hay đổi số lần nhập sai mật khẩu, chỉ cần sửa ở file này, không phải đi tìm từng con số rải rác trong code (tránh "số ma thuật").
 // ----------------------------------------------------------------------------
 

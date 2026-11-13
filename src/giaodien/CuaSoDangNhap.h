@@ -3,24 +3,21 @@
 
 // ============================================================================
 //  CuaSoDangNhap.h - Màn hình "ĐĂNG NHẬP HỆ THỐNG" (kế thừa CuaSoCoSo)
-//   - Chỉ cho vào hệ thống khi user / password có trong file Admin.txt.
-//   - Mật khẩu hiển thị thành dấu '*'.
-//   - Sai thì báo và cho nhập lại; sai 3 lần thì thoát khỏi hệ thống.
-//   - Nhấn ESC (hoặc nút ✕) để thoát khỏi hệ thống.
+//      - Chỉ cho vào hệ thống khi user / password có trong file Admin.txt.
+//      - Mật khẩu hiển thị thành dấu '*'.
+//      - Sai thì báo và cho nhập lại; sai 3 lần thì thoát khỏi hệ thống.
+//      - Nhấn ESC (hoặc nút ✕) để thoát khỏi hệ thống.
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
 //  Cửa sổ không có thanh tiêu đề của Windows (WS_POPUP) mà tự vẽ toàn bộ:
-//  dải màu chuyển sắc phía trên có biểu tượng cuốn sách, phía dưới là 2 ô
-//  nhập và nút Đăng nhập. Muốn kéo cửa sổ thì giữ chuột ở dải màu: ta trả lời
-//  Windows rằng vùng đó là "thanh tiêu đề" (HTCAPTION) trong WM_NCHITTEST.
+//  dải màu chuyển sắc phía trên có biểu tượng cuốn sách, phía dưới là 2 ô nhập và nút Đăng nhập. Muốn kéo cửa sổ thì giữ chuột ở dải màu: ta trả lời Windows rằng vùng đó là "thanh tiêu đề" (HTCAPTION) trong WM_NCHITTEST.
 //  Nhập sai: cửa sổ rung nhẹ + dòng báo lỗi màu đỏ + số lần thử còn lại.
 // ----------------------------------------------------------------------------
 
 #include "CuaSoCoSo.h"
 #include "QuanLyThuVien.h"
-
 #include <string>
 
 enum class KetQuaDangNhap {

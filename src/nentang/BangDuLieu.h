@@ -3,27 +3,21 @@
 
 // ============================================================================
 //  BangDuLieu.h - Bảng hiển thị dữ liệu dạng lưới (bọc điều khiển ListView)
-//   - Thêm cột, thêm dòng, lấy dòng đang chọn.
-//   - Dòng chẵn / lẻ tô màu xen kẽ; một cột "nhấn mạnh" được tô màu riêng
-//     theo từng dòng (ví dụ tình trạng: xanh = có sẵn, đỏ = đang mượn).
-//   - Bấm tiêu đề cột để sắp xếp tăng / giảm (hiện mũi tên ▲▼ trên cột).
-//   - Hiện dòng chữ "Không có dữ liệu" khi bảng rỗng.
+//      - Thêm cột, thêm dòng, lấy dòng đang chọn.
+//      - Dòng chẵn / lẻ tô màu xen kẽ; một cột "nhấn mạnh" được tô màu riêng theo từng dòng (ví dụ tình trạng: xanh = có sẵn, đỏ = đang mượn).
+//      - Bấm tiêu đề cột để sắp xếp tăng / giảm (hiện mũi tên ▲▼ trên cột).
+//      - Hiện dòng chữ "Không có dữ liệu" khi bảng rỗng.
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
 //  ListView là bảng có sẵn của Windows (giống bảng trong File Explorer).
-//  Lớp này chỉ "bọc" lại cho dễ dùng: trang nào cần bảng thì tạo một
-//  BangDuLieu, gọi ThemCot / ThemDong là xong.
-//  Bảng KHÔNG tự sắp xếp: khi người dùng bấm tiêu đề cột, bảng chỉ ghi nhớ
-//  "đang sắp theo cột nào, tăng hay giảm". Trang chứa bảng sẽ sắp xếp danh
-//  sách liên kết bằng DanhSachLienKet::SapXep (merge sort) rồi đổ lại vào bảng.
+//  Lớp này chỉ "bọc" lại cho dễ dùng: trang nào cần bảng thì tạo một BangDuLieu, gọi ThemCot / ThemDong là xong.
+//  Bảng KHÔNG tự sắp xếp: khi người dùng bấm tiêu đề cột, bảng chỉ ghi nhớ "đang sắp theo cột nào, tăng hay giảm". Trang chứa bảng sẽ sắp xếp danh sách liên kết bằng DanhSachLienKet::SapXep (merge sort) rồi đổ lại vào bảng.
 // ----------------------------------------------------------------------------
 
 #include "ChuDe.h"
-
 #include <commctrl.h>
-
 #include <initializer_list>
 #include <string>
 #include <vector>

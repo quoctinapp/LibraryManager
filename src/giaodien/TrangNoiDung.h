@@ -10,20 +10,15 @@
 //        ├── TrangPhieuMuon    hiển thị / lọc / mượn / trả / xuất CSV
 //        └── TrangBanDoc       hiển thị / thêm / xóa / tìm / xuất CSV
 //
-//  GiaoTiepTrang: "hợp đồng" mà cửa sổ chính cung cấp cho các trang (lấy thủ
-//  thư, báo lên thanh trạng thái, yêu cầu mọi trang làm mới dữ liệu).
+//  GiaoTiepTrang: "hợp đồng" mà cửa sổ chính cung cấp cho các trang (lấy thủ thư, báo lên thanh trạng thái, yêu cầu mọi trang làm mới dữ liệu).
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Mỗi trang là một cửa sổ con nằm trong vùng nội dung của cửa sổ chính, chỉ
-//  một trang được hiện tại một thời điểm. Lớp cơ sở lo phần GIỐNG NHAU:
-//  thanh công cụ (ô tìm kiếm + các nút), dòng tóm tắt, khung thẻ trắng chứa
-//  bảng, bắt lỗi khi thực hiện chức năng. Phần KHÁC NHAU (cột nào, nút nào,
-//  bấm nút thì làm gì) do từng lớp con tự viết qua các hàm ảo.
+//  Mỗi trang là một cửa sổ con nằm trong vùng nội dung của cửa sổ chính, chỉ một trang được hiện tại một thời điểm. Lớp cơ sở lo phần GIỐNG NHAU:
+//  thanh công cụ (ô tìm kiếm + các nút), dòng tóm tắt, khung thẻ trắng chứa bảng, bắt lỗi khi thực hiện chức năng. Phần KHÁC NHAU (cột nào, nút nào, bấm nút thì làm gì) do từng lớp con tự viết qua các hàm ảo.
 //
-//  Cửa sổ chính chỉ cần giữ 4 con trỏ TrangNoiDung* và gọi LamMoi() / GetTieuDe()
-//  mà không cần biết đó là trang nào -> đây chính là TÍNH ĐA HÌNH.
+//  Cửa sổ chính chỉ cần giữ 4 con trỏ TrangNoiDung* và gọi LamMoi() / GetTieuDe() mà không cần biết đó là trang nào -> đây chính là TÍNH ĐA HÌNH.
 // ----------------------------------------------------------------------------
 
 #include "BangDuLieu.h"
@@ -32,7 +27,6 @@
 #include "NgoaiLe.h"
 #include "QuanLyThuVien.h"
 #include "TienIch.h"
-
 #include <filesystem>
 #include <string>
 #include <vector>
@@ -66,41 +60,36 @@ protected:
 
     // ---- Tiện ích dùng chung cho các trang ----
     void TaoOTimKiem(const std::wstring& goiY);
-    // Bố trí thanh công cụ: ô tìm kiếm (+ hộp lọc) bên trái, các nút xếp bên phải; sau đó là
-    // dòng tóm tắt và khung bảng chiếm phần còn lại
+    // Bố trí thanh công cụ: ô tìm kiếm (+ hộp lọc) bên trái, các nút xếp bên phải; sau đó là dòng tóm tắt và khung bảng chiếm phần còn lại
     void BoTriChuan(int rong, int cao, const std::vector<HWND>& cacNut, HWND hopLoc = nullptr);
     static int DoRongNut(HWND nut);
     void DatTomTat(const std::wstring& chu);
 
     // So sánh 2 giá trị bất kỳ có toán tử < : trả về -1 / 0 / 1 (dùng khi sắp xếp bảng)
     template <typename T>
-    static int SoSanhGiaTri(const T& a, const T& b)
-    {
+    static int SoSanhGiaTri(const T& a, const T& b) {
         if (a < b) {
             return -1;
         }
+
         return (b < a) ? 1 : 0;
     }
 
     // Đổi kết quả so sánh -1/0/1 thành "a đứng trước b" theo chiều tăng / giảm của bảng
-    bool DungTruoc(int ketQuaSoSanh) const
-    {
+    bool DungTruoc(int ketQuaSoSanh) const {
         return bang.GetTangDan() ? ketQuaSoSanh < 0 : ketQuaSoSanh > 0;
     }
 
     // Chạy một chức năng; nếu có lỗi thì báo lỗi, HỦY chức năng và quay lại (đúng yêu cầu đề bài)
     template <typename Ham>
-    void ThucHienAnToan(const std::wstring& tenChucNang, Ham ham)
-    {
+    void ThucHienAnToan(const std::wstring& tenChucNang, Ham ham) {
         try {
             ham();
         } catch (const LoiChuongTrinh& loi) {
-            HopThongBao::Loi(giaoTiep.GetCuaSoChinh(), tenChucNang + L" không thành công",
-                             Utf8SangUtf16(loi.what()) + L"\n\nChức năng đã bị hủy.");
+            HopThongBao::Loi(giaoTiep.GetCuaSoChinh(), tenChucNang + L" không thành công", Utf8SangUtf16(loi.what()) + L"\n\nChức năng đã bị hủy.");
             giaoTiep.BaoTrangThai(L"Lỗi: " + Utf8SangUtf16(loi.what()));
         } catch (const std::exception& loi) {
-            HopThongBao::Loi(giaoTiep.GetCuaSoChinh(), L"Lỗi không xác định",
-                             Utf8SangUtf16(loi.what()) + L"\n\nChức năng đã bị hủy.");
+            HopThongBao::Loi(giaoTiep.GetCuaSoChinh(), L"Lỗi không xác định", Utf8SangUtf16(loi.what()) + L"\n\nChức năng đã bị hủy.");
         }
     }
 

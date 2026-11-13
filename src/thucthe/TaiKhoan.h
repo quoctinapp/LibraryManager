@@ -8,12 +8,10 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Mật khẩu để private và KHÔNG có hàm GetMatKhau(): bên ngoài chỉ được hỏi
-//  "user / password này có khớp không?" qua hàm KhopVoi(), không đọc trộm được.
+//  Mật khẩu để private và KHÔNG có hàm GetMatKhau(): bên ngoài chỉ được hỏi "user / password này có khớp không?" qua hàm KhopVoi(), không đọc trộm được.
 // ----------------------------------------------------------------------------
 
 #include "DoiTuongLuuTru.h"
-
 #include <cstddef>
 #include <string>
 

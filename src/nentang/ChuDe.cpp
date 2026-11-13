@@ -1,8 +1,7 @@
 // ============================================================================
 //  [GIẢI THÍCH DỄ HIỂU]
 //  Phần "cách làm" của lớp ChuDe (mục lục ở ChuDe.h).
-//  KhoiTao() được gọi MỘT lần khi chương trình bắt đầu: đọc DPI của màn hình
-//  và tạo sẵn các phông chữ. GiaiPhong() trả phông chữ lại cho Windows khi thoát.
+//  KhoiTao() được gọi MỘT lần khi chương trình bắt đầu: đọc DPI của màn hình và tạo sẵn các phông chữ. GiaiPhong() trả phông chữ lại cho Windows khi thoát.
 // ============================================================================
 
 #include "ChuDe.h"
@@ -12,14 +11,12 @@ HFONT ChuDe::phongChu[static_cast<int>(LoaiChu::SO_LOAI_CHU)] = {};
 int ChuDe::chieuCaoDong[static_cast<int>(LoaiChu::SO_LOAI_CHU)] = {};
 
 // [GIẢI THÍCH] Hỏi Windows xem máy có cài phông chữ này không.
-static int CALLBACK DemPhongChu(const LOGFONTW*, const TEXTMETRICW*, DWORD, LPARAM thamSo)
-{
+static int CALLBACK DemPhongChu(const LOGFONTW*, const TEXTMETRICW*, DWORD, LPARAM thamSo) {
     *reinterpret_cast<bool*>(thamSo) = true;
     return 0;   // tìm thấy 1 phông là đủ, dừng liệt kê
 }
 
-bool ChuDe::CoPhongChu(const wchar_t* tenPhong)
-{
+bool ChuDe::CoPhongChu(const wchar_t* tenPhong) {
     LOGFONTW moTa{};
     moTa.lfCharSet = DEFAULT_CHARSET;
     lstrcpynW(moTa.lfFaceName, tenPhong, LF_FACESIZE);
@@ -31,8 +28,7 @@ bool ChuDe::CoPhongChu(const wchar_t* tenPhong)
     return timThay;
 }
 
-HFONT ChuDe::TaoPhong(const wchar_t* tenPhong, int coChu, int doDam)
-{
+HFONT ChuDe::TaoPhong(const wchar_t* tenPhong, int coChu, int doDam) {
     LOGFONTW moTa{};
     moTa.lfHeight = -MulDiv(coChu, dpi, 72);    // cỡ chữ (point) -> pixel
     moTa.lfWeight = doDam;
@@ -42,8 +38,7 @@ HFONT ChuDe::TaoPhong(const wchar_t* tenPhong, int coChu, int doDam)
     return CreateFontIndirectW(&moTa);
 }
 
-void ChuDe::KhoiTao()
-{
+void ChuDe::KhoiTao() {
     HDC hdc = GetDC(nullptr);
     dpi = GetDeviceCaps(hdc, LOGPIXELSY);
     ReleaseDC(nullptr, hdc);
@@ -52,8 +47,7 @@ void ChuDe::KhoiTao()
     }
 
     // Windows 11 có "Segoe Fluent Icons", Windows 10 có "Segoe MDL2 Assets" (cùng mã biểu tượng)
-    const wchar_t* phongBieuTuong =
-        CoPhongChu(L"Segoe Fluent Icons") ? L"Segoe Fluent Icons" : L"Segoe MDL2 Assets";
+    const wchar_t* phongBieuTuong = CoPhongChu(L"Segoe Fluent Icons") ? L"Segoe Fluent Icons" : L"Segoe MDL2 Assets";
 
     struct MoTaPhong {
         const wchar_t* ten;
@@ -83,11 +77,11 @@ void ChuDe::KhoiTao()
         SelectObject(hdc, cu);
         chieuCaoDong[i] = soDo.tmHeight;
     }
+
     ReleaseDC(nullptr, hdc);
 }
 
-void ChuDe::GiaiPhong()
-{
+void ChuDe::GiaiPhong() {
     for (HFONT& phong : phongChu) {
         if (phong != nullptr) {
             DeleteObject(phong);
@@ -96,24 +90,19 @@ void ChuDe::GiaiPhong()
     }
 }
 
-int ChuDe::Dp(int giaTri)
-{
+int ChuDe::Dp(int giaTri) {
     return MulDiv(giaTri, dpi, 96);
 }
 
-HFONT ChuDe::Phong(LoaiChu loai)
-{
+HFONT ChuDe::Phong(LoaiChu loai) {
     return phongChu[static_cast<int>(loai)];
 }
 
-int ChuDe::ChieuCaoDong(LoaiChu loai)
-{
+int ChuDe::ChieuCaoDong(LoaiChu loai) {
     return chieuCaoDong[static_cast<int>(loai)];
 }
 
-COLORREF ChuDe::TronMau(COLORREF mau1, COLORREF mau2, double tiLe)
-{
+COLORREF ChuDe::TronMau(COLORREF mau1, COLORREF mau2, double tiLe) {
     auto tron = [tiLe](int a, int b) { return static_cast<int>(a + (b - a) * tiLe + 0.5); };
-    return RGB(tron(GetRValue(mau1), GetRValue(mau2)), tron(GetGValue(mau1), GetGValue(mau2)),
-               tron(GetBValue(mau1), GetBValue(mau2)));
+    return RGB(tron(GetRValue(mau1), GetRValue(mau2)), tron(GetGValue(mau1), GetGValue(mau2)), tron(GetBValue(mau1), GetBValue(mau2)));
 }

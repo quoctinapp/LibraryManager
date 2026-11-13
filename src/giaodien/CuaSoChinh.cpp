@@ -24,7 +24,6 @@
 #include "TrangPhieuMuon.h"
 #include "TrangSach.h"
 #include "TrangTongQuan.h"
-
 #include <commctrl.h>
 
 static const int RONG_THANH_BEN = 236;
@@ -36,16 +35,9 @@ static const int KHOANG_MUC = 6;
 static const wchar_t* const TEN_THU[] = { L"Chủ nhật", L"Thứ Hai", L"Thứ Ba", L"Thứ Tư",
                                           L"Thứ Năm", L"Thứ Sáu", L"Thứ Bảy" };
 
-CuaSoChinh::CuaSoChinh(QuanLyThuVien& quanLy, const std::filesystem::path& thuMucDuLieu,
-                       const std::wstring& nguoiDung)
-    : quanLy(quanLy), thuMucDuLieu(thuMucDuLieu), nguoiDung(nguoiDung), trangHienTai(0),
-      mucDangRe(-1), dangTheoDoiChuot(false), thanhTrangThai(nullptr), bangPhimTat(nullptr),
-      ketQua(KetQuaCuaSoChinh::THOAT)
-{
-}
+CuaSoChinh::CuaSoChinh(QuanLyThuVien& quanLy, const std::filesystem::path& thuMucDuLieu, const std::wstring& nguoiDung) : quanLy(quanLy), thuMucDuLieu(thuMucDuLieu), nguoiDung(nguoiDung), trangHienTai(0), mucDangRe(-1), dangTheoDoiChuot(false), thanhTrangThai(nullptr), bangPhimTat(nullptr), ketQua(KetQuaCuaSoChinh::THOAT) {}
 
-CuaSoChinh::~CuaSoChinh()
-{
+CuaSoChinh::~CuaSoChinh() {
     if (bangPhimTat != nullptr) {
         DestroyAcceleratorTable(bangPhimTat);
     }
@@ -55,25 +47,21 @@ CuaSoChinh::~CuaSoChinh()
 //  GiaoTiepTrang
 // ============================================================================
 
-QuanLyThuVien& CuaSoChinh::GetQuanLy()
-{
+QuanLyThuVien& CuaSoChinh::GetQuanLy() {
     return quanLy;
 }
 
-HWND CuaSoChinh::GetCuaSoChinh() const
-{
+HWND CuaSoChinh::GetCuaSoChinh() const {
     return hwnd;
 }
 
-void CuaSoChinh::BaoTrangThai(const std::wstring& thongBao)
-{
+void CuaSoChinh::BaoTrangThai(const std::wstring& thongBao) {
     if (thanhTrangThai != nullptr) {
         SendMessageW(thanhTrangThai, SB_SETTEXTW, 0, reinterpret_cast<LPARAM>((L"  " + thongBao).c_str()));
     }
 }
 
-void CuaSoChinh::DuLieuDaThayDoi()
-{
+void CuaSoChinh::DuLieuDaThayDoi() {
     for (auto& trang : cacTrang) {
         if (trang) {
             trang->LamMoi();
@@ -85,8 +73,7 @@ void CuaSoChinh::DuLieuDaThayDoi()
 //  Tạo cửa sổ và chạy
 // ============================================================================
 
-KetQuaCuaSoChinh CuaSoChinh::Chay()
-{
+KetQuaCuaSoChinh CuaSoChinh::Chay() {
     // Kích thước mặc định 1360x820 (theo DPI), không vượt quá vùng làm việc của màn hình
     RECT vungLamViec;
     SystemParametersInfoW(SPI_GETWORKAREA, 0, &vungLamViec, 0);
@@ -97,20 +84,20 @@ KetQuaCuaSoChinh CuaSoChinh::Chay()
     if (rong > rongToiDa) {
         rong = rongToiDa;
     }
+
     if (cao > caoToiDa) {
         cao = caoToiDa;
     }
+
     const int x = vungLamViec.left + (rongToiDa - rong) / 2;
     const int y = vungLamViec.top + (caoToiDa - cao) / 2;
 
-    if (!TaoCuaSo(WS_EX_CONTROLPARENT, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
-                  L"Quản lý thư viện – Project 3 CTDL&GT", x, y, rong, cao, nullptr)) {
+    if (!TaoCuaSo(WS_EX_CONTROLPARENT, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, L"Quản lý thư viện – Project 3 CTDL&GT", x, y, rong, cao, nullptr)) {
         return KetQuaCuaSoChinh::THOAT;
     }
 
     // Thanh trạng thái: [thông báo][thư mục dữ liệu]
-    thanhTrangThai = CreateWindowExW(0, STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP,
-                                     0, 0, 0, 0, hwnd, nullptr, GetInstance(), nullptr);
+    thanhTrangThai = CreateWindowExW(0, STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwnd, nullptr, GetInstance(), nullptr);
     SendMessageW(thanhTrangThai, WM_SETFONT, reinterpret_cast<WPARAM>(ChuDe::Phong(LoaiChu::NHO)), FALSE);
 
     // 4 trang (đa hình: cùng kiểu con trỏ TrangNoiDung, mỗi trang một lớp con)
@@ -135,8 +122,7 @@ KetQuaCuaSoChinh CuaSoChinh::Chay()
 
     BoTri();
     ChuyenTrang(0);
-    BaoTrangThai(L"Xin chào " + nguoiDung + L"!   Phím tắt: Ctrl+1..4 chuyển trang  ·  Ctrl+F tìm kiếm  ·  "
-                 L"F5 làm mới  ·  Delete xóa dòng đang chọn");
+    BaoTrangThai(L"Xin chào " + nguoiDung + L"!   Phím tắt: Ctrl+1..4 chuyển trang  ·  Ctrl+F tìm kiếm  ·  F5 làm mới  ·  Delete xóa dòng đang chọn");
 
     ShowWindow(hwnd, SW_SHOW);
     UpdateWindow(hwnd);
@@ -145,8 +131,7 @@ KetQuaCuaSoChinh CuaSoChinh::Chay()
     return ketQua;
 }
 
-bool CuaSoChinh::TienXuLy(MSG& thongDiep)
-{
+bool CuaSoChinh::TienXuLy(MSG& thongDiep) {
     return bangPhimTat != nullptr && hwnd != nullptr && TranslateAcceleratorW(hwnd, bangPhimTat, &thongDiep);
 }
 
@@ -154,11 +139,11 @@ bool CuaSoChinh::TienXuLy(MSG& thongDiep)
 //  Bố cục, chuyển trang
 // ============================================================================
 
-void CuaSoChinh::BoTri()
-{
+void CuaSoChinh::BoTri() {
     if (hwnd == nullptr || thanhTrangThai == nullptr) {
         return;
     }
+
     RECT vung;
     GetClientRect(hwnd, &vung);
 
@@ -180,35 +165,35 @@ void CuaSoChinh::BoTri()
     }
 }
 
-void CuaSoChinh::ChuyenTrang(int chiSo)
-{
+void CuaSoChinh::ChuyenTrang(int chiSo) {
     if (chiSo < 0 || chiSo >= SO_TRANG) {
         return;
     }
+
     trangHienTai = chiSo;
     for (int i = 0; i < SO_TRANG; ++i) {
         ShowWindow(cacTrang[i]->GetHwnd(), i == chiSo ? SW_SHOW : SW_HIDE);
     }
+
     cacTrang[chiSo]->LamMoi();
     InvalidateRect(hwnd, nullptr, FALSE);
 }
 
-void CuaSoChinh::DangXuat()
-{
+void CuaSoChinh::DangXuat() {
     if (HopThongBao::XacNhan(hwnd, L"Đăng xuất?", L"Bạn sẽ quay lại màn hình đăng nhập.")) {
         ketQua = KetQuaCuaSoChinh::DANG_XUAT;
         DestroyWindow(hwnd);
     }
 }
 
-RECT CuaSoChinh::VungMuc(int chiSo) const
-{
+RECT CuaSoChinh::VungMuc(int chiSo) const {
     const int le = ChuDe::Dp(12);
     const int rong = ChuDe::Dp(RONG_THANH_BEN);
     if (chiSo < SO_TRANG) {
         const int y = ChuDe::Dp(Y_MUC_DAU) + chiSo * ChuDe::Dp(CAO_MUC + KHOANG_MUC);
         return { le, y, rong - le, y + ChuDe::Dp(CAO_MUC) };
     }
+
     // Mục "Đăng xuất" ở đáy thanh bên (phía trên thanh trạng thái)
     RECT vung;
     GetClientRect(hwnd, &vung);
@@ -216,8 +201,7 @@ RECT CuaSoChinh::VungMuc(int chiSo) const
     return { le, duoi - ChuDe::Dp(CAO_MUC), rong - le, duoi };
 }
 
-int CuaSoChinh::MucTaiDiem(int x, int y) const
-{
+int CuaSoChinh::MucTaiDiem(int x, int y) const {
     const POINT diem = { x, y };
     for (int i = 0; i <= SO_TRANG; ++i) {
         const RECT vung = VungMuc(i);
@@ -225,6 +209,7 @@ int CuaSoChinh::MucTaiDiem(int x, int y) const
             return i;
         }
     }
+
     return -1;
 }
 
@@ -232,14 +217,12 @@ int CuaSoChinh::MucTaiDiem(int x, int y) const
 //  Vẽ
 // ============================================================================
 
-void CuaSoChinh::Ve(HDC hdc, const RECT& vung) const
-{
+void CuaSoChinh::Ve(HDC hdc, const RECT& vung) const {
     VeThanhBen(hdc, vung);
     VeDauTrang(hdc, vung);
 }
 
-void CuaSoChinh::VeThanhBen(HDC hdc, const RECT& vung) const
-{
+void CuaSoChinh::VeThanhBen(HDC hdc, const RECT& vung) const {
     const int rong = ChuDe::Dp(RONG_THANH_BEN);
     const RECT thanhBen = { 0, 0, rong, vung.bottom };
     BoVe::ToNen(hdc, thanhBen, ChuDe::THANH_BEN);
@@ -271,18 +254,17 @@ void CuaSoChinh::VeThanhBen(HDC hdc, const RECT& vung) const
             BoVe::ToBoGoc(hdc, muc, ChuDe::Dp(10), ChuDe::THANH_BEN_TRO, ChuDe::THANH_BEN_TRO);
             mauChu = ChuDe::TRANG;
         }
+
         const RECT vungBieuTuong = { muc.left + ChuDe::Dp(10), muc.top, muc.left + ChuDe::Dp(42), muc.bottom };
         BoVe::VeBieuTuong(hdc, bieuTuong[i], vungBieuTuong, LoaiChu::BIEU_TUONG, mauChu);
         const RECT vungChu = { muc.left + ChuDe::Dp(50), muc.top, muc.right - ChuDe::Dp(8), muc.bottom };
-        BoVe::VietChu(hdc, ten[i], vungChu, dangChon ? LoaiChu::DAM : LoaiChu::THUONG, mauChu,
-                      DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+        BoVe::VietChu(hdc, ten[i], vungChu, dangChon ? LoaiChu::DAM : LoaiChu::THUONG, mauChu, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
     }
 
     // Khối người dùng + mục Đăng xuất
     const RECT dangXuat = VungMuc(SO_TRANG);
     const int yNguoiDung = dangXuat.top - ChuDe::Dp(70);
-    BoVe::VeDuong(hdc, ChuDe::Dp(20), yNguoiDung - ChuDe::Dp(10), rong - ChuDe::Dp(20), yNguoiDung - ChuDe::Dp(10),
-                  ChuDe::THANH_BEN_TRO);
+    BoVe::VeDuong(hdc, ChuDe::Dp(20), yNguoiDung - ChuDe::Dp(10), rong - ChuDe::Dp(20), yNguoiDung - ChuDe::Dp(10), ChuDe::THANH_BEN_TRO);
     const int banKinh = ChuDe::Dp(20);
     const int tamX = ChuDe::Dp(24) + banKinh;
     const int tamY = yNguoiDung + ChuDe::Dp(28);
@@ -291,25 +273,23 @@ void CuaSoChinh::VeThanhBen(HDC hdc, const RECT& vung) const
     const RECT vungAnh = { tamX - banKinh, tamY - banKinh, tamX + banKinh, tamY + banKinh };
     BoVe::VietChu(hdc, chuDau, vungAnh, LoaiChu::TIEU_DE, ChuDe::TRANG, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     const RECT vungTenNguoi = { tamX + banKinh + ChuDe::Dp(12), tamY - ChuDe::Dp(20), rong - ChuDe::Dp(12), tamY };
-    BoVe::VietChu(hdc, nguoiDung, vungTenNguoi, LoaiChu::DAM, ChuDe::TRANG,
-                  DT_LEFT | DT_BOTTOM | DT_SINGLELINE | DT_END_ELLIPSIS);
+    BoVe::VietChu(hdc, nguoiDung, vungTenNguoi, LoaiChu::DAM, ChuDe::TRANG, DT_LEFT | DT_BOTTOM | DT_SINGLELINE | DT_END_ELLIPSIS);
     const RECT vungVaiTro = { tamX + banKinh + ChuDe::Dp(12), tamY, rong - ChuDe::Dp(12), tamY + ChuDe::Dp(20) };
-    BoVe::VietChu(hdc, L"Nhân viên thư viện", vungVaiTro, LoaiChu::NHO, ChuDe::THANH_BEN_CHU_MO,
-                  DT_LEFT | DT_TOP | DT_SINGLELINE);
+    BoVe::VietChu(hdc, L"Nhân viên thư viện", vungVaiTro, LoaiChu::NHO, ChuDe::THANH_BEN_CHU_MO, DT_LEFT | DT_TOP | DT_SINGLELINE);
 
     COLORREF mauDangXuat = ChuDe::THANH_BEN_CHU;
     if (mucDangRe == SO_TRANG) {
         BoVe::ToBoGoc(hdc, dangXuat, ChuDe::Dp(10), ChuDe::DO_DAM, ChuDe::DO_DAM);
         mauDangXuat = ChuDe::TRANG;
     }
+
     const RECT vungBieuTuongDX = { dangXuat.left + ChuDe::Dp(10), dangXuat.top, dangXuat.left + ChuDe::Dp(42), dangXuat.bottom };
     BoVe::VeBieuTuong(hdc, ChuDe::BT_THOAT, vungBieuTuongDX, LoaiChu::BIEU_TUONG, mauDangXuat);
     const RECT vungChuDX = { dangXuat.left + ChuDe::Dp(50), dangXuat.top, dangXuat.right, dangXuat.bottom };
     BoVe::VietChu(hdc, L"Đăng xuất", vungChuDX, LoaiChu::THUONG, mauDangXuat);
 }
 
-void CuaSoChinh::VeDauTrang(HDC hdc, const RECT& vung) const
-{
+void CuaSoChinh::VeDauTrang(HDC hdc, const RECT& vung) const {
     const int x = ChuDe::Dp(RONG_THANH_BEN);
     const int cao = ChuDe::Dp(CAO_DAU_TRANG);
     const RECT dau = { x, 0, vung.right, cao };
@@ -324,8 +304,7 @@ void CuaSoChinh::VeDauTrang(HDC hdc, const RECT& vung) const
 
     // Ô ngày hôm nay ở góc phải
     const NgayThang homNay = NgayThang::HomNay();
-    const std::wstring ngay = std::wstring(TEN_THU[homNay.ThuTrongTuan()]) + L", "
-                              + Utf8SangUtf16(homNay.ChuyenThanhChuoi());
+    const std::wstring ngay = std::wstring(TEN_THU[homNay.ThuTrongTuan()]) + L", " + Utf8SangUtf16(homNay.ChuyenThanhChuoi());
     const SIZE coChu = BoVe::DoChu(hdc, ngay, LoaiChu::DAM);
     const int rongO = coChu.cx + ChuDe::Dp(56);
     const RECT oNgay = { vung.right - ChuDe::Dp(28) - rongO, ChuDe::Dp(16), vung.right - ChuDe::Dp(28),
@@ -341,8 +320,7 @@ void CuaSoChinh::VeDauTrang(HDC hdc, const RECT& vung) const
 //  Thông điệp
 // ============================================================================
 
-LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
-{
+LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam) {
     switch (thongDiep) {
     case WM_SIZE:
         BoTri();
@@ -362,6 +340,7 @@ LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
         if (cacTrang[0]) {
             Ve(boDem.GetHdc(), boDem.GetVung());
         }
+
         return 0;
     }
 
@@ -371,6 +350,7 @@ LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
             TrackMouseEvent(&theoDoi);
             dangTheoDoiChuot = true;
         }
+
         const int muc = MucTaiDiem(static_cast<short>(LOWORD(lParam)), static_cast<short>(HIWORD(lParam)));
         if (muc != mucDangRe) {
             mucDangRe = muc;
@@ -380,6 +360,7 @@ LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
             thanhBen.bottom = vung.bottom;
             InvalidateRect(hwnd, &thanhBen, FALSE);
         }
+
         return 0;
     }
 
@@ -389,6 +370,7 @@ LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
             mucDangRe = -1;
             InvalidateRect(hwnd, nullptr, FALSE);
         }
+
         return 0;
 
     case WM_SETCURSOR:
@@ -410,6 +392,7 @@ LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
         } else if (muc == SO_TRANG) {
             DangXuat();
         }
+
         return 0;
     }
 
@@ -438,10 +421,12 @@ LRESULT CuaSoChinh::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
             ketQua = KetQuaCuaSoChinh::THOAT;
             DestroyWindow(hwnd);
         }
+
         return 0;
 
     default:
         break;
     }
+
     return CuaSoCoSo::XuLyThongDiep(thongDiep, wParam, lParam);
 }

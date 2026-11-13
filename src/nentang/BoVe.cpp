@@ -1,28 +1,23 @@
 // ============================================================================
 //  [GIẢI THÍCH DỄ HIỂU]
 //  Phần "cách làm" của BoVe và BoDemVe (mục lục ở BoVe.h).
-//  Quy tắc của GDI: mượn bút (pen) / cọ (brush) bằng CreateXxx, chọn vào tờ
-//  giấy bằng SelectObject, vẽ xong phải chọn lại đồ cũ và DeleteObject để trả
-//  lại cho Windows, nếu không chương trình sẽ "rò rỉ" tài nguyên.
+//  Quy tắc của GDI: mượn bút (pen) / cọ (brush) bằng CreateXxx, chọn vào tờ giấy bằng SelectObject, vẽ xong phải chọn lại đồ cũ và DeleteObject để trả lại cho Windows, nếu không chương trình sẽ "rò rỉ" tài nguyên.
 // ============================================================================
 
 #include "BoVe.h"
-
 #include <cmath>
 
 // ============================================================================
 //  BoVe
 // ============================================================================
 
-void BoVe::ToNen(HDC hdc, const RECT& vung, COLORREF mau)
-{
+void BoVe::ToNen(HDC hdc, const RECT& vung, COLORREF mau) {
     HBRUSH co = CreateSolidBrush(mau);
     FillRect(hdc, &vung, co);
     DeleteObject(co);
 }
 
-void BoVe::ToBoGoc(HDC hdc, const RECT& vung, int banKinh, COLORREF mauNen, COLORREF mauVien)
-{
+void BoVe::ToBoGoc(HDC hdc, const RECT& vung, int banKinh, COLORREF mauNen, COLORREF mauVien) {
     HBRUSH co = CreateSolidBrush(mauNen);
     HPEN but = CreatePen(PS_SOLID, 1, mauVien);
     HGDIOBJ coCu = SelectObject(hdc, co);
@@ -34,11 +29,8 @@ void BoVe::ToBoGoc(HDC hdc, const RECT& vung, int banKinh, COLORREF mauNen, COLO
     DeleteObject(but);
 }
 
-// [GIẢI THÍCH] GradientFill (thư viện msimg32 của Windows) tô một hình chữ
-// nhật chuyển dần từ màu đầu sang màu cuối. Mỗi màu ở đây dùng thang 16 bit.
-void BoVe::ToChuyenMau(HDC hdc, const RECT& vung, COLORREF mauDau, COLORREF mauCuoi,
-                       bool theoChieuNgang)
-{
+// [GIẢI THÍCH] GradientFill (thư viện msimg32 của Windows) tô một hình chữ nhật chuyển dần từ màu đầu sang màu cuối. Mỗi màu ở đây dùng thang 16 bit.
+void BoVe::ToChuyenMau(HDC hdc, const RECT& vung, COLORREF mauDau, COLORREF mauCuoi, bool theoChieuNgang) {
     TRIVERTEX dinh[2] = {};
     dinh[0].x = vung.left;
     dinh[0].y = vung.top;
@@ -55,8 +47,7 @@ void BoVe::ToChuyenMau(HDC hdc, const RECT& vung, COLORREF mauDau, COLORREF mauC
     GradientFill(hdc, dinh, 2, &hinh, 1, theoChieuNgang ? GRADIENT_FILL_RECT_H : GRADIENT_FILL_RECT_V);
 }
 
-void BoVe::ToHinhTron(HDC hdc, int tamX, int tamY, int banKinh, COLORREF mau)
-{
+void BoVe::ToHinhTron(HDC hdc, int tamX, int tamY, int banKinh, COLORREF mau) {
     HBRUSH co = CreateSolidBrush(mau);
     HPEN but = CreatePen(PS_SOLID, 1, mau);
     HGDIOBJ coCu = SelectObject(hdc, co);
@@ -68,8 +59,7 @@ void BoVe::ToHinhTron(HDC hdc, int tamX, int tamY, int banKinh, COLORREF mau)
     DeleteObject(but);
 }
 
-void BoVe::VeDuong(HDC hdc, int x1, int y1, int x2, int y2, COLORREF mau, int doDay)
-{
+void BoVe::VeDuong(HDC hdc, int x1, int y1, int x2, int y2, COLORREF mau, int doDay) {
     HPEN but = CreatePen(PS_SOLID, doDay, mau);
     HGDIOBJ butCu = SelectObject(hdc, but);
     MoveToEx(hdc, x1, y1, nullptr);
@@ -78,20 +68,16 @@ void BoVe::VeDuong(HDC hdc, int x1, int y1, int x2, int y2, COLORREF mau, int do
     DeleteObject(but);
 }
 
-void BoVe::VietChu(HDC hdc, const std::wstring& chu, const RECT& vung, LoaiChu loai,
-                   COLORREF mau, UINT dinhDang)
-{
+void BoVe::VietChu(HDC hdc, const std::wstring& chu, const RECT& vung, LoaiChu loai, COLORREF mau, UINT dinhDang) {
     RECT vungViet = vung;
     HGDIOBJ phongCu = SelectObject(hdc, ChuDe::Phong(loai));
     SetBkMode(hdc, TRANSPARENT);
     SetTextColor(hdc, mau);
-    DrawTextW(hdc, chu.c_str(), static_cast<int>(chu.size()), &vungViet,
-              dinhDang | DT_NOPREFIX);
+    DrawTextW(hdc, chu.c_str(), static_cast<int>(chu.size()), &vungViet, dinhDang | DT_NOPREFIX);
     SelectObject(hdc, phongCu);
 }
 
-SIZE BoVe::DoChu(HDC hdc, const std::wstring& chu, LoaiChu loai)
-{
+SIZE BoVe::DoChu(HDC hdc, const std::wstring& chu, LoaiChu loai) {
     SIZE kichThuoc{};
     HGDIOBJ phongCu = SelectObject(hdc, ChuDe::Phong(loai));
     GetTextExtentPoint32W(hdc, chu.c_str(), static_cast<int>(chu.size()), &kichThuoc);
@@ -99,17 +85,12 @@ SIZE BoVe::DoChu(HDC hdc, const std::wstring& chu, LoaiChu loai)
     return kichThuoc;
 }
 
-void BoVe::VeBieuTuong(HDC hdc, wchar_t bieuTuong, const RECT& vung, LoaiChu loai, COLORREF mau)
-{
+void BoVe::VeBieuTuong(HDC hdc, wchar_t bieuTuong, const RECT& vung, LoaiChu loai, COLORREF mau) {
     VietChu(hdc, std::wstring(1, bieuTuong), vung, loai, mau, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
 
-// [GIẢI THÍCH] GDI vẽ hình tròn bị "răng cưa". Mẹo: vẽ to gấp 3 lần lên tấm
-// ảnh phụ, rồi thu nhỏ về kích thước thật bằng chế độ HALFTONE (lấy trung
-// bình màu các điểm ảnh) -> mép tròn trở nên mịn.
-void BoVe::VeDonut(HDC hdc, const RECT& vung, double tiLe, COLORREF mauChinh, COLORREF mauPhu,
-                   COLORREF mauNen, int doDayVong)
-{
+// [GIẢI THÍCH] GDI vẽ hình tròn bị "răng cưa". Mẹo: vẽ to gấp 3 lần lên tấm ảnh phụ, rồi thu nhỏ về kích thước thật bằng chế độ HALFTONE (lấy trung bình màu các điểm ảnh) -> mép tròn trở nên mịn.
+void BoVe::VeDonut(HDC hdc, const RECT& vung, double tiLe, COLORREF mauChinh, COLORREF mauPhu, COLORREF mauNen, int doDayVong) {
     const int HE_SO = 3;
     const int rong = vung.right - vung.left;
     const int cao = vung.bottom - vung.top;
@@ -142,8 +123,7 @@ void BoVe::VeDonut(HDC hdc, const RECT& vung, double tiLe, COLORREF mauChinh, CO
         HGDIOBJ coCu = SelectObject(hdcLon, co);
         HGDIOBJ butCu = SelectObject(hdcLon, but);
         SetArcDirection(hdcLon, AD_CLOCKWISE);
-        Pie(hdcLon, tamX - banKinh, tamY - banKinh, tamX + banKinh, tamY + banKinh,
-            tamX, tamY - banKinh, xCuoi, yCuoi);
+        Pie(hdcLon, tamX - banKinh, tamY - banKinh, tamX + banKinh, tamY + banKinh, tamX, tamY - banKinh, xCuoi, yCuoi);
         SelectObject(hdcLon, coCu);
         SelectObject(hdcLon, butCu);
         DeleteObject(co);
@@ -165,20 +145,15 @@ void BoVe::VeDonut(HDC hdc, const RECT& vung, double tiLe, COLORREF mauChinh, CO
 //  BoDemVe
 // ============================================================================
 
-BoDemVe::BoDemVe(HWND hwnd)
-    : hwnd(hwnd), thongTinVe{}, hdcManHinh(nullptr), hdcDem(nullptr), anhDem(nullptr),
-      anhCu(nullptr), vung{}
-{
+BoDemVe::BoDemVe(HWND hwnd) : hwnd(hwnd), thongTinVe{}, hdcManHinh(nullptr), hdcDem(nullptr), anhDem(nullptr), anhCu(nullptr), vung{} {
     hdcManHinh = BeginPaint(hwnd, &thongTinVe);
     GetClientRect(hwnd, &vung);
     hdcDem = CreateCompatibleDC(hdcManHinh);
-    anhDem = CreateCompatibleBitmap(hdcManHinh, vung.right > 0 ? vung.right : 1,
-                                    vung.bottom > 0 ? vung.bottom : 1);
+    anhDem = CreateCompatibleBitmap(hdcManHinh, vung.right > 0 ? vung.right : 1, vung.bottom > 0 ? vung.bottom : 1);
     anhCu = SelectObject(hdcDem, anhDem);
 }
 
-BoDemVe::~BoDemVe()
-{
+BoDemVe::~BoDemVe() {
     BitBlt(hdcManHinh, 0, 0, vung.right, vung.bottom, hdcDem, 0, 0, SRCCOPY);
     SelectObject(hdcDem, anhCu);
     DeleteObject(anhDem);

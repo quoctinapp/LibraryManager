@@ -57,10 +57,9 @@ bool ChuaTuKhoa(const std::string& chuoi, const std::string& tuKhoa);
 // So sánh theo thứ tự từ điển tiếng Việt: < 0 nếu a đứng trước b, 0 nếu bằng, > 0 nếu sau
 int SoSanhTiengViet(const std::string& a, const std::string& b);
 
-// [GIẢI THÍCH] Đổi chuỗi sang số kiểu T. Trả về false nếu chuỗi rỗng, có ký tự
-// thừa ("12abc", "1.5" với kiểu int) hoặc số quá lớn so với kiểu T.
+// [GIẢI THÍCH] Đổi chuỗi sang số kiểu T. Trả về false nếu chuỗi rỗng, có ký tự thừa ("12abc", "1.5" với kiểu int) hoặc số quá lớn so với kiểu T.
 template <typename T>
-bool ChuyenSangSo(const std::string& chuoi, T& ketQua){
+bool ChuyenSangSo(const std::string& chuoi, T& ketQua) {
     const std::string daCat = CatKhoangTrang(chuoi);
     if (daCat.empty()) {
         return false;
@@ -81,7 +80,7 @@ bool ChuyenSangSo(const std::string& chuoi, T& ketQua){
 // Ví dụ TachChuoi("a|b|c", '|', mang3) -> mang3 = {"a", "b", "c"}, trả về true.
 // Nếu số ô khác N (thiếu hoặc thừa) thì trả về false.
 template <std::size_t N>
-bool TachChuoi(const std::string& chuoi, char kyTuPhanCach, std::string (&ketQua)[N]){
+bool TachChuoi(const std::string& chuoi, char kyTuPhanCach, std::string (&ketQua)[N]) {
     std::size_t soO = 0;
     std::size_t batDau = 0;
 

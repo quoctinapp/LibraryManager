@@ -10,9 +10,7 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Để cộng ngày cho đúng (31/12 + 7 = 07/01 năm sau, 28/02 năm nhuận + 1 = 29/02), 
-//  lớp này đổi ngày thành "số thứ tự của ngày" (đếm từ 01/01/1970),
-//  cộng / trừ trên con số đó, rồi đổi ngược lại thành ngày / tháng / năm.
+//  Để cộng ngày cho đúng (31/12 + 7 = 07/01 năm sau, 28/02 năm nhuận + 1 = 29/02), lớp này đổi ngày thành "số thứ tự của ngày" (đếm từ 01/01/1970), cộng / trừ trên con số đó, rồi đổi ngược lại thành ngày / tháng / năm.
 //  Nạp chồng toán tử (==, <, >...) giúp viết "ngayNhap > homNay" như so sánh số.
 // ----------------------------------------------------------------------------
 

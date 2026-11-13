@@ -17,7 +17,7 @@
 #include <filesystem>
 #include <string>
 
-int ChuongTrinh::Chay(HINSTANCE hInstance){
+int ChuongTrinh::Chay(HINSTANCE hInstance) {
     // [GIẢI THÍCH] Chỉ cho chạy MỘT cửa sổ chương trình cùng lúc: hai cửa sổ cùng ghi vào một file dữ liệu sẽ làm hỏng dữ liệu của nhau.
     HANDLE khoaDuyNhat = CreateMutexW(nullptr, TRUE, L"QuanLyThuVien.CTDL.Project3");
     if (GetLastError() == ERROR_ALREADY_EXISTS) {
@@ -42,6 +42,7 @@ int ChuongTrinh::Chay(HINSTANCE hInstance){
             for (const std::string& dong : canhBao) {
                 noiDung += L"•  " + Utf8SangUtf16(dong) + L"\n";
             }
+
             HopThongBao::CanhBao(nullptr, L"Cảnh báo khi đọc dữ liệu", noiDung);
         }
 
@@ -53,6 +54,7 @@ int ChuongTrinh::Chay(HINSTANCE hInstance){
                 HopThongBao::Loi(nullptr, L"Đăng nhập thất bại", L"Bạn đã nhập sai user / password " + std::to_wstring(CauHinh::SO_LAN_DANG_NHAP_TOI_DA) + L" lần. Hệ thống sẽ thoát.");
                 break;
             }
+
             if (ketQua == KetQuaDangNhap::THOAT) {
                 break;
             }

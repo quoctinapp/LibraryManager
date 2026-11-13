@@ -3,25 +3,22 @@
 
 // ============================================================================
 //  QuanLyThuVien.h - Lớp xử lý NGHIỆP VỤ của thư viện (không vẽ gì ra màn hình)
-//   - Nạp dữ liệu từ 4 file, kiểm tra đăng nhập.
-//   - Sách: thêm (ghi nối Sach.txt), xóa (ghi đè Sach.txt), tìm kiếm.
-//   - Bạn đọc: thêm (ghi nối BanDoc.txt), xóa (ghi đè BanDoc.txt).
-//   - Mượn / trả sách (ghi lại Sach.txt và PhieuMuon.txt).
-//   - Thống kê cho trang Tổng quan.
-//  Dữ liệu sai ràng buộc -> ném LoiNhapLieu; vi phạm quy định -> LoiNghiepVu;
-//  lỗi ghi file -> LoiFile và dữ liệu trong bộ nhớ được khôi phục như cũ.
+//      - Nạp dữ liệu từ 4 file, kiểm tra đăng nhập.
+//      - Sách: thêm (ghi nối Sach.txt), xóa (ghi đè Sach.txt), tìm kiếm.
+//      - Bạn đọc: thêm (ghi nối BanDoc.txt), xóa (ghi đè BanDoc.txt).
+//      - Mượn / trả sách (ghi lại Sach.txt và PhieuMuon.txt).
+//      - Thống kê cho trang Tổng quan.
+//  Dữ liệu sai ràng buộc -> ném LoiNhapLieu; vi phạm quy định -> LoiNghiepVu; lỗi ghi file -> LoiFile và dữ liệu trong bộ nhớ được khôi phục như cũ.
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Đây là "thủ thư": giữ 4 cuốn sổ (danh sách liên kết) và 4 người thủ kho
-//  (KhoDuLieu) chép sổ ra file. Thủ thư lo mọi việc ĐÚNG QUY ĐỊNH, ví dụ:
-//    - Giá bán phải > 0, ngày nhập kho không được ở tương lai.
-//    - Sách đang có người mượn thì không được xóa, không được cho mượn tiếp.
-//    - Phiếu đã trả rồi thì không trả lại lần nữa.
-//  Mọi kiểm tra nằm Ở ĐÂY chứ không nằm ở giao diện, nên dù nhập từ cửa sổ
-//  nào thì dữ liệu sai cũng bị chặn. Nhờ tách riêng như vậy, có thể kiểm thử
-//  tự động thủ thư (tests/KiemThu.cpp) mà không cần ai ngồi bấm chuột.
+//  Đây là "thủ thư": giữ 4 cuốn sổ (danh sách liên kết) và 4 người thủ kho (KhoDuLieu) chép sổ ra file.
+//  Thủ thư lo mọi việc ĐÚNG QUY ĐỊNH, ví dụ:
+//      - Giá bán phải > 0, ngày nhập kho không được ở tương lai.
+//      - Sách đang có người mượn thì không được xóa, không được cho mượn tiếp.
+//      - Phiếu đã trả rồi thì không trả lại lần nữa.
+//  Mọi kiểm tra nằm Ở ĐÂY chứ không nằm ở giao diện, nên dù nhập từ cửa sổ nào thì dữ liệu sai cũng bị chặn. Nhờ tách riêng như vậy, có thể kiểm thử tự động thủ thư (tests/KiemThu.cpp) mà không cần ai ngồi bấm chuột.
 // ----------------------------------------------------------------------------
 
 #include "BanDoc.h"
@@ -31,7 +28,6 @@
 #include "PhieuMuon.h"
 #include "Sach.h"
 #include "TaiKhoan.h"
-
 #include <filesystem>
 #include <string>
 
@@ -64,12 +60,10 @@ private:
 
     // Đọc một file vào danh sách, bỏ các bản ghi trùng khóa, ghi lại cảnh báo
     template <typename T>
-    static void NapDanhSach(const KhoDuLieu<T>& kho, DanhSachLienKet<T>& danhSach,
-                            DanhSachLienKet<std::string>& canhBao);
+    static void NapDanhSach(const KhoDuLieu<T>& kho, DanhSachLienKet<T>& danhSach, DanhSachLienKet<std::string>& canhBao);
 
     // Kiểm tra một trường chữ: không rỗng, không chứa '|', không quá dài
-    static void KiemTraChu(const std::string& giaTri, const std::string& tenTruong,
-                           std::size_t doDaiToiDa);
+    static void KiemTraChu(const std::string& giaTri, const std::string& tenTruong, std::size_t doDaiToiDa);
     static void KiemTraSach(const Sach& sach);
     static void KiemTraBanDoc(const BanDoc& banDoc);
 
@@ -77,8 +71,7 @@ private:
     PhieuMuon* TimPhieuMuonDeSua(int soPhieu);
 
     // Ghi Sach.txt + PhieuMuon.txt; lỗi thì khôi phục bản sao lưu rồi ném lại lỗi
-    void GhiSachVaPhieuMuon(const DanhSachLienKet<Sach>& saoLuuSach,
-                            const DanhSachLienKet<PhieuMuon>& saoLuuPhieu);
+    void GhiSachVaPhieuMuon(const DanhSachLienKet<Sach>& saoLuuSach, const DanhSachLienKet<PhieuMuon>& saoLuuPhieu);
 
 public:
     // thuMucDuLieu: thư mục chứa 4 file .txt (kiểm thử dùng thư mục riêng)

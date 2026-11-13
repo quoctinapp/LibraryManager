@@ -20,7 +20,6 @@
 #include "DieuKhien.h"
 #include "HopThongBao.h"
 #include "MaDieuKhien.h"
-
 #include <commctrl.h>
 
 static const int RONG_HOP_THOAI = 580;
@@ -32,22 +31,14 @@ static const int CAO_O = 38;
 static const int KHOANG_HANG = 14;
 static const int KHOANG_COT = 16;
 
-HopThoaiCoSo::HopThoaiCoSo(GiaoTiepTrang& giaoTiep, const std::wstring& tieuDe,
-                           const std::wstring& moTa, wchar_t bieuTuong,
-                           const std::wstring& chuNutDongY)
-    : cuaSoChu(nullptr), tieuDe(tieuDe), moTa(moTa), bieuTuong(bieuTuong),
-      chuNutDongY(chuNutDongY), daDongY(false), rongNoiDung(0), yHienTai(0), giaoTiep(giaoTiep)
-{
-}
+HopThoaiCoSo::HopThoaiCoSo(GiaoTiepTrang& giaoTiep, const std::wstring& tieuDe, const std::wstring& moTa, wchar_t bieuTuong, const std::wstring& chuNutDongY) : cuaSoChu(nullptr), tieuDe(tieuDe), moTa(moTa), bieuTuong(bieuTuong), chuNutDongY(chuNutDongY), daDongY(false), rongNoiDung(0), yHienTai(0), giaoTiep(giaoTiep) {}
 
 // ============================================================================
 //  Bố cục các trường
 // ============================================================================
 
-// [GIẢI THÍCH] Trả về vị trí cho điều khiển, đồng thời ghi lại nhãn cần vẽ và
-// dịch con trỏ "yHienTai" xuống hàng tiếp theo khi hàng đã đầy.
-RECT HopThoaiCoSo::CapViTri(const std::wstring& nhan, ViTriTruong viTri, int caoDieuKhien)
-{
+// [GIẢI THÍCH] Trả về vị trí cho điều khiển, đồng thời ghi lại nhãn cần vẽ và dịch con trỏ "yHienTai" xuống hàng tiếp theo khi hàng đã đầy.
+RECT HopThoaiCoSo::CapViTri(const std::wstring& nhan, ViTriTruong viTri, int caoDieuKhien) {
     const int le = ChuDe::Dp(LE);
     const int khoangCot = ChuDe::Dp(KHOANG_COT);
     const int rongNua = (rongNoiDung - 2 * le - khoangCot) / 2;
@@ -68,12 +59,11 @@ RECT HopThoaiCoSo::CapViTri(const std::wstring& nhan, ViTriTruong viTri, int cao
     if (viTri != ViTriTruong::TRAI) {
         yHienTai += caoNhan + caoDieuKhien + ChuDe::Dp(KHOANG_HANG);
     }
+
     return vung;
 }
 
-HWND HopThoaiCoSo::ThemONhap(const std::wstring& nhan, int id, DWORD kieuThem, int doDaiToiDa,
-                             ViTriTruong viTri)
-{
+HWND HopThoaiCoSo::ThemONhap(const std::wstring& nhan, int id, DWORD kieuThem, int doDaiToiDa, ViTriTruong viTri) {
     const RECT vung = CapViTri(nhan, viTri, ChuDe::Dp(CAO_O));
     HWND oNhap = DieuKhien::TaoONhap(hwnd, id, kieuThem, doDaiToiDa);
     DieuKhien::DatViTriONhap(oNhap, vung.left, vung.top, vung.right - vung.left, vung.bottom - vung.top);
@@ -81,17 +71,14 @@ HWND HopThoaiCoSo::ThemONhap(const std::wstring& nhan, int id, DWORD kieuThem, i
     return oNhap;
 }
 
-HWND HopThoaiCoSo::ThemHopChon(const std::wstring& nhan, int id, bool choPhepGo, ViTriTruong viTri)
-{
+HWND HopThoaiCoSo::ThemHopChon(const std::wstring& nhan, int id, bool choPhepGo, ViTriTruong viTri) {
     const RECT vung = CapViTri(nhan, viTri, ChuDe::Dp(CAO_O));
     HWND hop = DieuKhien::TaoHopChon(hwnd, id, choPhepGo);
     MoveWindow(hop, vung.left, vung.top, vung.right - vung.left, ChuDe::Dp(320), TRUE);
     return hop;
 }
 
-HWND HopThoaiCoSo::ThemChonNgay(const std::wstring& nhan, int id, const NgayThang& macDinh,
-                                ViTriTruong viTri)
-{
+HWND HopThoaiCoSo::ThemChonNgay(const std::wstring& nhan, int id, const NgayThang& macDinh, ViTriTruong viTri) {
     const RECT vung = CapViTri(nhan, viTri, ChuDe::Dp(CAO_O));
     HWND chonNgay = DieuKhien::TaoChonNgay(hwnd, id);
     MoveWindow(chonNgay, vung.left, vung.top, vung.right - vung.left, vung.bottom - vung.top, TRUE);
@@ -115,27 +102,24 @@ HWND HopThoaiCoSo::ThemChonNgay(const std::wstring& nhan, int id, const NgayThan
     return chonNgay;
 }
 
-int HopThoaiCoSo::ThemOThongTin(const std::wstring& nhan, const std::wstring& giaTri, COLORREF mau,
-                                ViTriTruong viTri)
-{
+int HopThoaiCoSo::ThemOThongTin(const std::wstring& nhan, const std::wstring& giaTri, COLORREF mau, ViTriTruong viTri) {
     const RECT vung = CapViTri(nhan, viTri, ChuDe::Dp(CAO_O));
     dsOThongTin.push_back({ giaTri, vung, mau });
     return static_cast<int>(dsOThongTin.size()) - 1;
 }
 
-RECT HopThoaiCoSo::ThemVungTuVe(int chieuCao)
-{
+RECT HopThoaiCoSo::ThemVungTuVe(int chieuCao) {
     const int le = ChuDe::Dp(LE);
     const RECT vung = { le, yHienTai, rongNoiDung - le, yHienTai + chieuCao };
     yHienTai += chieuCao + ChuDe::Dp(KHOANG_HANG);
     return vung;
 }
 
-void HopThoaiCoSo::DatOThongTin(int chiSo, const std::wstring& giaTri, COLORREF mau)
-{
+void HopThoaiCoSo::DatOThongTin(int chiSo, const std::wstring& giaTri, COLORREF mau) {
     if (chiSo < 0 || chiSo >= static_cast<int>(dsOThongTin.size())) {
         return;
     }
+
     dsOThongTin[static_cast<std::size_t>(chiSo)].chu = giaTri;
     dsOThongTin[static_cast<std::size_t>(chiSo)].mau = mau;
     InvalidateRect(hwnd, &dsOThongTin[static_cast<std::size_t>(chiSo)].vung, FALSE);
@@ -145,20 +129,17 @@ void HopThoaiCoSo::DatOThongTin(int chiSo, const std::wstring& giaTri, COLORREF 
 //  Đọc giá trị
 // ============================================================================
 
-std::string HopThoaiCoSo::LayChuUtf8(HWND dieuKhien)
-{
+std::string HopThoaiCoSo::LayChuUtf8(HWND dieuKhien) {
     return CatKhoangTrang(Utf16SangUtf8(DieuKhien::LayChu(dieuKhien)));
 }
 
-NgayThang HopThoaiCoSo::LayNgay(HWND chonNgay)
-{
+NgayThang HopThoaiCoSo::LayNgay(HWND chonNgay) {
     SYSTEMTIME ngay{};
     DateTime_GetSystemtime(chonNgay, &ngay);
     return NgayThang(ngay.wDay, ngay.wMonth, ngay.wYear);
 }
 
-std::string HopThoaiCoSo::LayMaDauChuoi(HWND hopChon)
-{
+std::string HopThoaiCoSo::LayMaDauChuoi(HWND hopChon) {
     const std::string chuoi = LayChuUtf8(hopChon);
     const std::size_t viTri = chuoi.find(' ');
     return VietHoa(viTri == std::string::npos ? chuoi : chuoi.substr(0, viTri));
@@ -168,8 +149,7 @@ std::string HopThoaiCoSo::LayMaDauChuoi(HWND hopChon)
 //  Chạy hộp thoại
 // ============================================================================
 
-bool HopThoaiCoSo::ChayModal()
-{
+bool HopThoaiCoSo::ChayModal() {
     cuaSoChu = giaoTiep.GetCuaSoChinh();
     rongNoiDung = ChuDe::Dp(RONG_HOP_THOAI);
 
@@ -190,12 +170,10 @@ bool HopThoaiCoSo::ChayModal()
     const int yNut = caoNoiDung - (ChuDe::Dp(CAO_PHAN_CHAN) + caoNut) / 2;
     const int rongNutDongY = ChuDe::Dp(150);
     const int rongNutHuy = ChuDe::Dp(100);
-    HWND nutDongY = DieuKhien::TaoNut(hwnd, IDOK, chuNutDongY, ChuDe::BT_DONG_Y, KieuNut::CHINH,
-                                      ChuDe::DONG_LE);
+    HWND nutDongY = DieuKhien::TaoNut(hwnd, IDOK, chuNutDongY, ChuDe::BT_DONG_Y, KieuNut::CHINH, ChuDe::DONG_LE);
     HWND nutHuy = DieuKhien::TaoNut(hwnd, IDCANCEL, L"Hủy", 0, KieuNut::PHU, ChuDe::DONG_LE);
     MoveWindow(nutDongY, rongNoiDung - le - rongNutDongY, yNut, rongNutDongY, caoNut, FALSE);
-    MoveWindow(nutHuy, rongNoiDung - le - rongNutDongY - ChuDe::Dp(10) - rongNutHuy, yNut,
-               rongNutHuy, caoNut, FALSE);
+    MoveWindow(nutHuy, rongNoiDung - le - rongNutDongY - ChuDe::Dp(10) - rongNutHuy, yNut, rongNutHuy, caoNut, FALSE);
 
     // 3) Đổi kích thước cửa sổ cho vừa nội dung và đặt giữa cửa sổ chính
     RECT khung = { 0, 0, rongNoiDung, caoNoiDung };
@@ -204,9 +182,7 @@ bool HopThoaiCoSo::ChayModal()
     const int caoCuaSo = khung.bottom - khung.top;
     RECT vungChu;
     GetWindowRect(cuaSoChu, &vungChu);
-    SetWindowPos(hwnd, nullptr, vungChu.left + (vungChu.right - vungChu.left - rongCuaSo) / 2,
-                 vungChu.top + (vungChu.bottom - vungChu.top - caoCuaSo) / 2, rongCuaSo, caoCuaSo,
-                 SWP_NOZORDER);
+    SetWindowPos(hwnd, nullptr, vungChu.left + (vungChu.right - vungChu.left - rongCuaSo) / 2, vungChu.top + (vungChu.bottom - vungChu.top - caoCuaSo) / 2, rongCuaSo, caoCuaSo, SWP_NOZORDER);
 
     // 4) Khóa cửa sổ chính, hiện hộp thoại, chờ tới khi đóng
     EnableWindow(cuaSoChu, FALSE);
@@ -215,12 +191,12 @@ bool HopThoaiCoSo::ChayModal()
     if (oDau != nullptr) {
         SetFocus(oDau);
     }
+
     ChayVongLapThongDiep();
     return daDongY;
 }
 
-void HopThoaiCoSo::Dong()
-{
+void HopThoaiCoSo::Dong() {
     // Mở khóa cửa sổ chính TRƯỚC khi hủy hộp thoại để Windows trả tiêu điểm về đúng chỗ
     EnableWindow(cuaSoChu, TRUE);
     SetActiveWindow(cuaSoChu);
@@ -229,16 +205,14 @@ void HopThoaiCoSo::Dong()
     }
 }
 
-void HopThoaiCoSo::DongY()
-{
+void HopThoaiCoSo::DongY() {
     try {
         if (ThucHien()) {
             daDongY = true;
             Dong();
         }
     } catch (const LoiChuongTrinh& loi) {
-        HopThongBao::Loi(hwnd, tieuDe + L" không thành công",
-                         Utf8SangUtf16(loi.what()) + L"\n\nChức năng đã bị hủy.");
+        HopThongBao::Loi(hwnd, tieuDe + L" không thành công", Utf8SangUtf16(loi.what()) + L"\n\nChức năng đã bị hủy.");
         giaoTiep.BaoTrangThai(L"Lỗi: " + Utf8SangUtf16(loi.what()));
         Dong();
     } catch (const std::exception& loi) {
@@ -247,16 +221,11 @@ void HopThoaiCoSo::DongY()
     }
 }
 
-void HopThoaiCoSo::XuLyLenhThem(int, int)
-{
-}
+void HopThoaiCoSo::XuLyLenhThem(int, int) {}
 
-void HopThoaiCoSo::VeThem(HDC)
-{
-}
+void HopThoaiCoSo::VeThem(HDC) {}
 
-LRESULT HopThoaiCoSo::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam)
-{
+LRESULT HopThoaiCoSo::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam) {
     switch (thongDiep) {
     case WM_COMMAND:
         XuLyTieuDiemONhap(wParam, lParam);
@@ -267,6 +236,7 @@ LRESULT HopThoaiCoSo::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam
         } else {
             XuLyLenhThem(LOWORD(wParam), HIWORD(wParam));
         }
+
         return 0;
 
     case WM_CLOSE:
@@ -297,23 +267,22 @@ LRESULT HopThoaiCoSo::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam
         const RECT vungTieuDe = { xChu, ChuDe::Dp(14), vung.right - le, ChuDe::Dp(46) };
         BoVe::VietChu(hdc, tieuDe, vungTieuDe, LoaiChu::TIEU_DE, ChuDe::CHU);
         const RECT vungMoTa = { xChu, ChuDe::Dp(46), vung.right - le, ChuDe::Dp(70) };
-        BoVe::VietChu(hdc, moTa, vungMoTa, LoaiChu::NHO, ChuDe::CHU_PHU,
-                      DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+        BoVe::VietChu(hdc, moTa, vungMoTa, LoaiChu::NHO, ChuDe::CHU_PHU, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
 
         // Nhãn, ô nhập, ô thông tin
         for (const Nhan& nhan : dsNhan) {
-            BoVe::VietChu(hdc, nhan.chu, nhan.vung, LoaiChu::NHO_DAM, ChuDe::CHU,
-                          DT_LEFT | DT_TOP | DT_SINGLELINE);
+            BoVe::VietChu(hdc, nhan.chu, nhan.vung, LoaiChu::NHO_DAM, ChuDe::CHU, DT_LEFT | DT_TOP | DT_SINGLELINE);
         }
+
         VeKhungCacONhap(hdc, ChuDe::THE);
         for (const OThongTin& o : dsOThongTin) {
             BoVe::ToBoGoc(hdc, o.vung, ChuDe::Dp(6), ChuDe::DONG_LE, ChuDe::VIEN);
             RECT vungChu = o.vung;
             vungChu.left += ChuDe::Dp(12);
             vungChu.right -= ChuDe::Dp(8);
-            BoVe::VietChu(hdc, o.chu, vungChu, LoaiChu::DAM, o.mau,
-                          DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+            BoVe::VietChu(hdc, o.chu, vungChu, LoaiChu::DAM, o.mau, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
         }
+
         VeThem(hdc);
 
         // Phần chân
@@ -327,5 +296,6 @@ LRESULT HopThoaiCoSo::XuLyThongDiep(UINT thongDiep, WPARAM wParam, LPARAM lParam
     default:
         break;
     }
+
     return CuaSoCoSo::XuLyThongDiep(thongDiep, wParam, lParam);
 }

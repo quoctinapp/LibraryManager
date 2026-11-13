@@ -12,17 +12,14 @@
 
 // ============================================================================
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Đây là "cửa chính" của chương trình: bấm đúp QuanLyThuVien.exe thì máy
-//  tính bắt đầu chạy từ hàm wWinMain ở file này (chương trình có cửa sổ của
-//  Windows dùng wWinMain thay cho main; chữ "w" = hỗ trợ tiếng Việt Unicode).
+//  Đây là "cửa chính" của chương trình: bấm đúp QuanLyThuVien.exe thì máy tính bắt đầu chạy từ hàm wWinMain ở file này (chương trình có cửa sổ của Windows dùng wWinMain thay cho main; chữ "w" = hỗ trợ tiếng Việt Unicode).
 // ===========================================================================
 
 #include "ChuongTrinh.h"
 #include "TienIch.h"
-
 #include <exception>
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int){
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int) {
     try {
         ChuongTrinh chuongTrinh;
         return chuongTrinh.Chay(hInstance);

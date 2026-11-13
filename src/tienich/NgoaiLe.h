@@ -14,7 +14,7 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Ngoại lệ giống "còi báo động". Khi gặp lỗi ở sâu bên trong (ví dụ nhập giá bán là "abc"), code chỉ cần "thổi còi" bằng lệnh throw. 
+//  Ngoại lệ giống "còi báo động". Khi gặp lỗi ở sâu bên trong (ví dụ nhập giá bán là "abc"), code chỉ cần "thổi còi" bằng lệnh throw.
 //  Còi được nghe thấy ở ChuongTrinh::ThucHienChucNang: ở đó in thông báo lỗi, HỦY chức năng đang làm và quay về menu, đúng như yêu cầu của đề bài.
 // ----------------------------------------------------------------------------
 

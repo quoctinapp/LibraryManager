@@ -7,27 +7,20 @@
 #include "CauHinh.h"
 #include "TienIch.h"
 
-BanDoc::BanDoc()
-{
-}
+BanDoc::BanDoc() {}
 
-BanDoc::BanDoc(const std::string& maBanDoc, const std::string& hoTen, const NgayThang& ngayDangKy)
-    : maBanDoc(maBanDoc), hoTen(hoTen), ngayDangKy(ngayDangKy)
-{
-}
+BanDoc::BanDoc(const std::string& maBanDoc, const std::string& hoTen, const NgayThang& ngayDangKy) : maBanDoc(maBanDoc), hoTen(hoTen), ngayDangKy(ngayDangKy) {}
 
 std::string BanDoc::GetMaBanDoc() const { return maBanDoc; }
 std::string BanDoc::GetHoTen() const { return hoTen; }
 NgayThang BanDoc::GetNgayDangKy() const { return ngayDangKy; }
 
-std::string BanDoc::ChuyenThanhDong() const
-{
+std::string BanDoc::ChuyenThanhDong() const {
     const std::string ngan(1, CauHinh::KY_TU_PHAN_CACH);
     return maBanDoc + ngan + hoTen + ngan + ngayDangKy.ChuyenThanhChuoi();
 }
 
-bool BanDoc::DocTuDong(const std::string& dong)
-{
+bool BanDoc::DocTuDong(const std::string& dong) {
     std::string o[SO_TRUONG];
     if (!TachChuoi(dong, CauHinh::KY_TU_PHAN_CACH, o)) {
         return false;
@@ -46,7 +39,6 @@ bool BanDoc::DocTuDong(const std::string& dong)
     return true;
 }
 
-std::string BanDoc::LayKhoa() const
-{
+std::string BanDoc::LayKhoa() const {
     return maBanDoc;
 }

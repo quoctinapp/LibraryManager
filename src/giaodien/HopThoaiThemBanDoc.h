@@ -8,8 +8,7 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Mã bạn đọc được điền sẵn mã kế tiếp (đang có BD008 thì gợi ý BD009) để
-//  nhân viên đỡ phải nghĩ, nhưng vẫn sửa được. Trùng mã sẽ bị từ chối.
+//  Mã bạn đọc được điền sẵn mã kế tiếp (đang có BD008 thì gợi ý BD009) để nhân viên đỡ phải nghĩ, nhưng vẫn sửa được. Trùng mã sẽ bị từ chối.
 // ----------------------------------------------------------------------------
 
 #include "HopThoaiCoSo.h"

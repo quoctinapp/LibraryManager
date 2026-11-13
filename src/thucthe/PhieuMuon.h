@@ -11,14 +11,11 @@
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Phiếu mượn là "biên nhận": ai (mã bạn đọc) mượn cuốn nào (mã sách), ngày
-//  nào, hạn trả ngày nào. Constructor tự điền ngày phải trả = ngày mượn + 7
-//  và tình trạng = 1, nên không thể tạo nhầm một phiếu sai quy định.
+//  Phiếu mượn là "biên nhận": ai (mã bạn đọc) mượn cuốn nào (mã sách), ngày nào, hạn trả ngày nào. Constructor tự điền ngày phải trả = ngày mượn + 7 và tình trạng = 1, nên không thể tạo nhầm một phiếu sai quy định.
 // ----------------------------------------------------------------------------
 
 #include "DoiTuongLuuTru.h"
 #include "NgayThang.h"
-
 #include <cstddef>
 #include <string>
 
@@ -35,8 +32,7 @@ public:
     static const std::size_t SO_TRUONG = 6;
 
     PhieuMuon();
-    PhieuMuon(int soPhieu, const std::string& maBanDoc, const std::string& maSach,
-              const NgayThang& ngayMuon);
+    PhieuMuon(int soPhieu, const std::string& maBanDoc, const std::string& maSach, const NgayThang& ngayMuon);
 
     int GetSoPhieu() const;
     std::string GetMaBanDoc() const;

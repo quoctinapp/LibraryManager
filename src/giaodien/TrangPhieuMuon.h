@@ -3,10 +3,10 @@
 
 // ============================================================================
 //  TrangPhieuMuon.h - Trang "Quản lý phiếu mượn" (kế thừa TrangNoiDung)
-//   - Hiển thị thông tin các phiếu mượn (kèm họ tên bạn đọc, tên sách).
-//   - Lọc: Tất cả / Đang mượn / Quá hạn / Đã trả; tìm kiếm tức thì.
-//   - Mượn sách, Trả sách (nhập số phiếu), Xuất CSV.
-//   - Nhấp đúp một phiếu đang mượn để trả nhanh.
+//      - Hiển thị thông tin các phiếu mượn (kèm họ tên bạn đọc, tên sách).
+//      - Lọc: Tất cả / Đang mượn / Quá hạn / Đã trả; tìm kiếm tức thì.
+//      - Mượn sách, Trả sách (nhập số phiếu), Xuất CSV.
+//      - Nhấp đúp một phiếu đang mượn để trả nhanh.
 // ============================================================================
 
 // ----------------------------------------------------------------------------

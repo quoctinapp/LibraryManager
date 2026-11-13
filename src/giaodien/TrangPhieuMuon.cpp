@@ -18,28 +18,23 @@ enum LocPhieu {
     LOC_DA_TRA
 };
 
-TrangPhieuMuon::TrangPhieuMuon(GiaoTiepTrang& giaoTiep)
-    : TrangNoiDung(giaoTiep), hopLoc(nullptr), nutMuon(nullptr), nutTra(nullptr), nutXuat(nullptr)
-{
-}
+TrangPhieuMuon::TrangPhieuMuon(GiaoTiepTrang& giaoTiep) : TrangNoiDung(giaoTiep), hopLoc(nullptr), nutMuon(nullptr), nutTra(nullptr), nutXuat(nullptr) {}
 
-std::wstring TrangPhieuMuon::GetTieuDe() const
-{
+std::wstring TrangPhieuMuon::GetTieuDe() const {
     return L"Quản lý phiếu mượn";
 }
 
-std::wstring TrangPhieuMuon::GetMoTa() const
-{
+std::wstring TrangPhieuMuon::GetMoTa() const {
     return L"Hiển thị phiếu mượn, mượn sách và trả sách";
 }
 
-void TrangPhieuMuon::TaoDieuKhien()
-{
+void TrangPhieuMuon::TaoDieuKhien() {
     TaoOTimKiem(L"Tìm theo số phiếu, bạn đọc, sách...  (Ctrl+F)");
     hopLoc = DieuKhien::TaoHopChon(hwnd, MA_HOP_LOC, false);
     for (const wchar_t* muc : { L"Tất cả phiếu", L"Đang mượn", L"Quá hạn", L"Đã trả" }) {
         SendMessageW(hopLoc, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(muc));
     }
+
     SendMessageW(hopLoc, CB_SETCURSEL, LOC_TAT_CA, 0);
 
     nutMuon = DieuKhien::TaoNut(hwnd, MA_NUT_MUON, L"Mượn sách", ChuDe::BT_TOI, KieuNut::CHINH, ChuDe::NEN);
@@ -59,25 +54,21 @@ void TrangPhieuMuon::TaoDieuKhien()
     bang.DatChuKhiRong(L"Không có phiếu mượn nào phù hợp");
 }
 
-void TrangPhieuMuon::BoTri(int rong, int cao)
-{
+void TrangPhieuMuon::BoTri(int rong, int cao) {
     BoTriChuan(rong, cao, { nutXuat, nutTra, nutMuon }, hopLoc);
 }
 
-std::string TrangPhieuMuon::TenBanDoc(const std::string& maBanDoc) const
-{
+std::string TrangPhieuMuon::TenBanDoc(const std::string& maBanDoc) const {
     const BanDoc* banDoc = giaoTiep.GetQuanLy().TimBanDoc(maBanDoc);
     return banDoc != nullptr ? banDoc->GetHoTen() : "(không rõ)";
 }
 
-std::string TrangPhieuMuon::TenSach(const std::string& maSach) const
-{
+std::string TrangPhieuMuon::TenSach(const std::string& maSach) const {
     const Sach* sach = giaoTiep.GetQuanLy().TimSach(maSach);
     return sach != nullptr ? sach->GetTenSach() : "(đã bị xóa)";
 }
 
-int TrangPhieuMuon::SoSanh(const PhieuMuon& a, const PhieuMuon& b, int cot) const
-{
+int TrangPhieuMuon::SoSanh(const PhieuMuon& a, const PhieuMuon& b, int cot) const {
     switch (cot) {
     case 0: return SoSanhGiaTri(a.GetSoPhieu(), b.GetSoPhieu());
     case 1: return SoSanhTiengViet(a.GetMaBanDoc(), b.GetMaBanDoc());
@@ -96,8 +87,7 @@ int TrangPhieuMuon::SoSanh(const PhieuMuon& a, const PhieuMuon& b, int cot) cons
     }
 }
 
-void TrangPhieuMuon::LamMoi()
-{
+void TrangPhieuMuon::LamMoi() {
     const QuanLyThuVien& quanLy = giaoTiep.GetQuanLy();
     const std::wstring soDangChon = bang.LayChuDongChon(0);
     const std::string tuKhoa = Utf16SangUtf8(DieuKhien::LayChu(oTimKiem));
@@ -106,13 +96,11 @@ void TrangPhieuMuon::LamMoi()
 
     // Lọc theo tình trạng + từ khóa
     dsHienThi = quanLy.GetDanhSachPhieuMuon().Loc([&](const PhieuMuon& p) {
-        if ((loc == LOC_DANG_MUON && !p.DangMuon()) || (loc == LOC_QUA_HAN && !p.QuaHan(homNay))
-            || (loc == LOC_DA_TRA && p.DangMuon())) {
+        if ((loc == LOC_DANG_MUON && !p.DangMuon()) || (loc == LOC_QUA_HAN && !p.QuaHan(homNay)) || (loc == LOC_DA_TRA && p.DangMuon())) {
             return false;
         }
-        return ChuaTuKhoa(std::to_string(p.GetSoPhieu()), tuKhoa) || ChuaTuKhoa(p.GetMaBanDoc(), tuKhoa)
-               || ChuaTuKhoa(TenBanDoc(p.GetMaBanDoc()), tuKhoa) || ChuaTuKhoa(p.GetMaSach(), tuKhoa)
-               || ChuaTuKhoa(TenSach(p.GetMaSach()), tuKhoa);
+
+        return ChuaTuKhoa(std::to_string(p.GetSoPhieu()), tuKhoa) || ChuaTuKhoa(p.GetMaBanDoc(), tuKhoa) || ChuaTuKhoa(TenBanDoc(p.GetMaBanDoc()), tuKhoa) || ChuaTuKhoa(p.GetMaSach(), tuKhoa) || ChuaTuKhoa(TenSach(p.GetMaSach()), tuKhoa);
     });
     const int cot = bang.GetCotSapXep();
     if (cot >= 0) {
@@ -132,26 +120,20 @@ void TrangPhieuMuon::LamMoi()
             tinhTrang = L"1  ·  Đang mượn";
             mau = ChuDe::CAM;
         }
-        bang.ThemDong({ std::to_wstring(phieu.GetSoPhieu()), Utf8SangUtf16(phieu.GetMaBanDoc()),
-                        Utf8SangUtf16(TenBanDoc(phieu.GetMaBanDoc())), Utf8SangUtf16(phieu.GetMaSach()),
-                        Utf8SangUtf16(TenSach(phieu.GetMaSach())),
-                        Utf8SangUtf16(phieu.GetNgayMuon().ChuyenThanhChuoi()),
-                        Utf8SangUtf16(phieu.GetNgayPhaiTra().ChuyenThanhChuoi()), tinhTrang },
-                      mau);
+
+        bang.ThemDong({ std::to_wstring(phieu.GetSoPhieu()), Utf8SangUtf16(phieu.GetMaBanDoc()), Utf8SangUtf16(TenBanDoc(phieu.GetMaBanDoc())), Utf8SangUtf16(phieu.GetMaSach()), Utf8SangUtf16(TenSach(phieu.GetMaSach())), Utf8SangUtf16(phieu.GetNgayMuon().ChuyenThanhChuoi()), Utf8SangUtf16(phieu.GetNgayPhaiTra().ChuyenThanhChuoi()), tinhTrang }, mau);
     }
+
     bang.KetThucCapNhat();
     bang.ChonDongCoChu(soDangChon);
 
     const DanhSachLienKet<PhieuMuon>& tatCa = quanLy.GetDanhSachPhieuMuon();
     const std::size_t dangMuon = tatCa.DemNeu([](const PhieuMuon& p) { return p.DangMuon(); });
     const std::size_t quaHan = tatCa.DemNeu([&homNay](const PhieuMuon& p) { return p.QuaHan(homNay); });
-    DatTomTat(L"Hiển thị " + std::to_wstring(dsHienThi.KichThuoc()) + L" / " + std::to_wstring(tatCa.KichThuoc())
-              + L" phiếu   ·   " + std::to_wstring(dangMuon) + L" đang mượn   ·   " + std::to_wstring(quaHan)
-              + L" quá hạn   ·   Tình trạng: 1 = đang mượn, 0 = đã trả   ·   Nhấp đúp phiếu để trả sách");
+    DatTomTat(L"Hiển thị " + std::to_wstring(dsHienThi.KichThuoc()) + L" / " + std::to_wstring(tatCa.KichThuoc()) + L" phiếu   ·   " + std::to_wstring(dangMuon) + L" đang mượn   ·   " + std::to_wstring(quaHan) + L" quá hạn   ·   Tình trạng: 1 = đang mượn, 0 = đã trả   ·   Nhấp đúp phiếu để trả sách");
 }
 
-void TrangPhieuMuon::XuLyLenh(int id, int maThongBao)
-{
+void TrangPhieuMuon::XuLyLenh(int id, int maThongBao) {
     switch (id) {
     case MA_TIM_KIEM:
         if (maThongBao == EN_CHANGE) {
@@ -177,44 +159,38 @@ void TrangPhieuMuon::XuLyLenh(int id, int maThongBao)
     }
 }
 
-bool TrangPhieuMuon::XuLyThongBaoKhac(const NMHDR* thongBao, LRESULT& ketQua)
-{
+bool TrangPhieuMuon::XuLyThongBaoKhac(const NMHDR* thongBao, LRESULT& ketQua) {
     if (thongBao->hwndFrom == bang.GetHwnd() && thongBao->code == NM_DBLCLK) {
         TraSach();
         ketQua = 0;
         return true;
     }
+
     return false;
 }
 
-void TrangPhieuMuon::MuonSach()
-{
+void TrangPhieuMuon::MuonSach() {
     HopThoaiMuonSach hopThoai(giaoTiep, "");
     hopThoai.ChayModal();
 }
 
-// [GIẢI THÍCH] Đề bài: "Nhập số phiếu mượn để yêu cầu trả sách". Hộp thoại
-// luôn cho nhập số phiếu; nếu đang chọn một phiếu thì điền sẵn số của phiếu đó.
-void TrangPhieuMuon::TraSach()
-{
+// [GIẢI THÍCH] Đề bài: "Nhập số phiếu mượn để yêu cầu trả sách". Hộp thoại luôn cho nhập số phiếu; nếu đang chọn một phiếu thì điền sẵn số của phiếu đó.
+void TrangPhieuMuon::TraSach() {
     int soPhieu = 0;
     ChuyenSangSo(Utf16SangUtf8(bang.LayChuDongChon(0)), soPhieu);
     HopThoaiTraSach hopThoai(giaoTiep, soPhieu);
     hopThoai.ChayModal();
 }
 
-void TrangPhieuMuon::XuatBaoCao()
-{
+void TrangPhieuMuon::XuatBaoCao() {
     const std::filesystem::path duongDan = HoiNoiLuuCsv(L"DanhSachPhieuMuon");
     if (duongDan.empty()) {
         return;
     }
+
     ThucHienAnToan(L"Xuất CSV", [&]() {
-        XuatCsv(duongDan, "Số phiếu,Mã bạn đọc,Họ tên bạn đọc,Mã sách,Tên sách,Ngày mượn,Ngày phải trả,Tình trạng",
-                dsHienThi, [this](const PhieuMuon& p) {
-                    return NoiCsv({ std::to_string(p.GetSoPhieu()), p.GetMaBanDoc(), TenBanDoc(p.GetMaBanDoc()),
-                                    p.GetMaSach(), TenSach(p.GetMaSach()), p.GetNgayMuon().ChuyenThanhChuoi(),
-                                    p.GetNgayPhaiTra().ChuyenThanhChuoi(), std::to_string(p.GetTinhTrang()) });
+        XuatCsv(duongDan, "Số phiếu,Mã bạn đọc,Họ tên bạn đọc,Mã sách,Tên sách,Ngày mượn,Ngày phải trả,Tình trạng", dsHienThi, [this](const PhieuMuon& p) {
+                    return NoiCsv({ std::to_string(p.GetSoPhieu()), p.GetMaBanDoc(), TenBanDoc(p.GetMaBanDoc()), p.GetMaSach(), TenSach(p.GetMaSach()), p.GetNgayMuon().ChuyenThanhChuoi(), p.GetNgayPhaiTra().ChuyenThanhChuoi(), std::to_string(p.GetTinhTrang()) });
                 });
         HoanTatXuatCsv(duongDan, dsHienThi.KichThuoc());
     });

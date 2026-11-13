@@ -3,16 +3,15 @@
 
 // ============================================================================
 //  TrangSach.h - Trang "Quản lý sách" (kế thừa TrangNoiDung)
-//   - Hiển thị thông tin sách: bảng 9 cột, bấm tiêu đề cột để sắp xếp.
-//   - Tìm kiếm tức thì theo mã / tên / tác giả / NXB (không phân biệt dấu).
-//   - Thêm sách, Xóa sách (chọn dòng hoặc nhập mã), Cho mượn, Xuất CSV.
-//   - Nhấp đúp một dòng để xem chi tiết; phím Delete để xóa dòng đang chọn.
+//      - Hiển thị thông tin sách: bảng 9 cột, bấm tiêu đề cột để sắp xếp.
+//      - Tìm kiếm tức thì theo mã / tên / tác giả / NXB (không phân biệt dấu).
+//      - Thêm sách, Xóa sách (chọn dòng hoặc nhập mã), Cho mượn, Xuất CSV.
+//      - Nhấp đúp một dòng để xem chi tiết; phím Delete để xóa dòng đang chọn.
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Mỗi lần LamMoi(): lấy danh sách sách khớp từ khóa (DanhSachLienKet<Sach>),
-//  sắp xếp bằng merge sort theo cột đang chọn, rồi đổ từng dòng vào bảng.
+//  Mỗi lần LamMoi(): lấy danh sách sách khớp từ khóa (DanhSachLienKet<Sach>), sắp xếp bằng merge sort theo cột đang chọn, rồi đổ từng dòng vào bảng.
 //  Cột tình trạng tô xanh nếu = 0 (còn trong kho), tô đỏ nếu đang được mượn.
 // ----------------------------------------------------------------------------
 

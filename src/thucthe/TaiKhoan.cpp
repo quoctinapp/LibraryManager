@@ -7,32 +7,23 @@
 #include "CauHinh.h"
 #include "TienIch.h"
 
-TaiKhoan::TaiKhoan()
-{
-}
+TaiKhoan::TaiKhoan() {}
 
-TaiKhoan::TaiKhoan(const std::string& tenDangNhap, const std::string& matKhau)
-    : tenDangNhap(tenDangNhap), matKhau(matKhau)
-{
-}
+TaiKhoan::TaiKhoan(const std::string& tenDangNhap, const std::string& matKhau) : tenDangNhap(tenDangNhap), matKhau(matKhau) {}
 
-std::string TaiKhoan::GetTenDangNhap() const
-{
+std::string TaiKhoan::GetTenDangNhap() const {
     return tenDangNhap;
 }
 
-bool TaiKhoan::KhopVoi(const std::string& tenDangNhapNhap, const std::string& matKhauNhap) const
-{
+bool TaiKhoan::KhopVoi(const std::string& tenDangNhapNhap, const std::string& matKhauNhap) const {
     return tenDangNhap == tenDangNhapNhap && matKhau == matKhauNhap;
 }
 
-std::string TaiKhoan::ChuyenThanhDong() const
-{
+std::string TaiKhoan::ChuyenThanhDong() const {
     return tenDangNhap + CauHinh::KY_TU_PHAN_CACH + matKhau;
 }
 
-bool TaiKhoan::DocTuDong(const std::string& dong)
-{
+bool TaiKhoan::DocTuDong(const std::string& dong) {
     std::string o[SO_TRUONG];
     if (!TachChuoi(dong, CauHinh::KY_TU_PHAN_CACH, o)) {
         return false;
@@ -49,7 +40,6 @@ bool TaiKhoan::DocTuDong(const std::string& dong)
     return true;
 }
 
-std::string TaiKhoan::LayKhoa() const
-{
+std::string TaiKhoan::LayKhoa() const {
     return tenDangNhap;
 }

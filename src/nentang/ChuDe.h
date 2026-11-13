@@ -3,17 +3,14 @@
 
 // ============================================================================
 //  ChuDe.h - "Chủ đề" giao diện: bảng màu, phông chữ, co giãn theo DPI
-//   - Bảng màu hiện đại (nền xám nhạt, thẻ trắng, màu nhấn xanh dương).
-//   - Phông Segoe UI nhiều cỡ + phông biểu tượng Segoe MDL2 / Fluent Icons
-//     (có sẵn trong Windows 10/11, không cần file ảnh).
-//   - Dp(x): đổi kích thước thiết kế ở 100% sang kích thước thật theo DPI
-//     (màn hình đặt tỉ lệ 125%, 150% thì mọi thứ to lên tương ứng).
+//      - Bảng màu hiện đại (nền xám nhạt, thẻ trắng, màu nhấn xanh dương).
+//      - Phông Segoe UI nhiều cỡ + phông biểu tượng Segoe MDL2 / Fluent Icons (có sẵn trong Windows 10/11, không cần file ảnh).
+//      - Dp(x): đổi kích thước thiết kế ở 100% sang kích thước thật theo DPI (màn hình đặt tỉ lệ 125%, 150% thì mọi thứ to lên tương ứng).
 // ============================================================================
 
 // ----------------------------------------------------------------------------
 //  [GIẢI THÍCH DỄ HIỂU]
-//  Giống "bộ nhận diện thương hiệu" của một công ty: mọi cửa sổ đều lấy màu và
-//  chữ từ đây, nên giao diện đồng bộ và muốn đổi màu chỉ cần sửa một chỗ.
+//  Giống "bộ nhận diện thương hiệu" của một công ty: mọi cửa sổ đều lấy màu và chữ từ đây, nên giao diện đồng bộ và muốn đổi màu chỉ cần sửa một chỗ.
 //  COLORREF = một màu, viết bằng RGB(đỏ, xanh lá, xanh dương), mỗi số 0..255.
 //  HFONT = một kiểu chữ (phông + cỡ + độ đậm) mà Windows đã tạo sẵn để vẽ.
 // ----------------------------------------------------------------------------
